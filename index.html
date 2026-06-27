@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <script>
-        // Configuration de la palette de couleurs VALO dans Tailwind
+        // Configuration de la palette de couleurs VALO
         tailwind.config = {
             theme: {
                 extend: {
@@ -24,7 +24,6 @@
         }
     </script>
     <style>
-        /* Petite animation fluide pour la partie PC */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -34,86 +33,96 @@
         }
     </style>
 </head>
-<body class="bg-valoMidnight text-white h-full font-sans antialiased">
+<body class="bg-valoMidnight text-white h-full font-sans antialiased selection:bg-valoMint selection:text-valoMidnight">
 
     <div class="block md:hidden flex flex-col justify-between h-full p-6 text-center">
-        <div class="mt-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-valoCard border border-slate-700 mb-3 shadow-xl">
-                <span class="text-3xl font-extrabold text-valoMint tracking-tighter">V</span>
-            </div>
-            <h1 class="text-2xl font-black tracking-wider">VALO</h1>
+        <div class="mt-6 flex flex-col items-center">
+            <img src="valo.png" alt="VALO Logo" class="h-32 w-auto object-contain mb-2 drop-shadow-lg">
         </div>
 
-        <div class="my-auto max-w-sm mx-auto px-4">
-            <h2 class="text-xl font-bold mb-3 text-valoMint">Valorisez votre argent.</h2>
+        <div class="my-auto max-w-sm mx-auto px-4 space-y-3">
+            <h2 class="text-2xl font-extrabold tracking-tight text-valoMint">Valorisez votre argent.</h2>
             <p class="text-valoSlate text-sm leading-relaxed">
                 Prenez le contrôle absolu de votre budget quotidien, suivez vos dépenses en temps réel et optimisez chaque centime avec une clarté totale.
             </p>
         </div>
 
-        <div class="mb-8 w-full max-w-sm mx-auto">
-            <button class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-4 px-6 rounded-xl transition duration-300 shadow-lg shadow-valoMint/20 flex items-center justify-center gap-3">
-                <i class="bi bi-box-arrow-down text-lg"></i>
+        <div class="mb-6 w-full max-w-sm mx-auto space-y-4">
+            <button class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-4 px-6 rounded-xl transition duration-300 shadow-lg shadow-valoMint/20 flex items-center justify-center gap-3 active:scale-[0.98]">
+                <i class="bi bi-box-arrow-down text-xl"></i>
                 Télécharger l'application VALO
             </button>
-            <p class="text-xs text-valoSlate mt-3">Disponible pour Android et iOS</p>
+            
+            <div class="flex justify-center gap-6 text-valoSlate text-2xl">
+                <i class="bi bi-apple hover:text-white transition-colors duration-200"></i>
+                <i class="bi bi-google-play hover:text-white transition-colors duration-200"></i>
+            </div>
         </div>
     </div>
 
 
-    <div class="hidden md:flex h-full w-full items-center justify-center p-8 lg:p-12">
-        <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <div class="hidden md:flex h-full w-full items-center justify-center p-8 lg:p-16 relative overflow-hidden">
+        
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.08),transparent_45%)] pointer-events-none"></div>
+
+        <div class="max-w-6xl w-full grid grid-cols-2 gap-16 items-center z-10">
             
-            <div class="space-y-6">
-                <div class="flex items-center gap-3">
-                    <span class="text-4xl font-extrabold text-valoMint tracking-tighter">V</span>
-                    <span class="text-3xl font-black tracking-wider">VALO</span>
+            <div class="space-y-8">
+                <div class="flex items-center">
+                    <img src="lat_valo.png" alt="VALO" class="h-12 w-auto object-contain">
                 </div>
-                <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-                    Maîtrisez votre <br><span class="text-valoMint">Budget</span>, partout.
-                </h2>
-                <p class="text-valoSlate text-lg max-w-md">
-                    Une interface épurée conçue pour les professionnels et les particuliers qui exigent de la précision dans leur gestion financière.
-                </p>
                 
-                <div class="relative pt-6">
-                    <div class="animate-float w-72 h-44 rounded-2xl bg-gradient-to-br from-valoMint/20 to-valoCard border border-slate-700 p-6 shadow-2xl flex flex-col justify-between">
+                <div class="space-y-4">
+                    <h2 class="text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+                        Maîtrisez votre <br><span class="text-valoMint">Budget</span>, partout.
+                    </h2>
+                    <p class="text-valoSlate text-lg max-w-md leading-relaxed">
+                        Une interface épurée conçue pour les professionnels et les particuliers qui exigent de la précision dans leur gestion financière.
+                    </p>
+                </div>
+                
+                <div class="relative pt-4">
+                    <div class="animate-float w-80 h-48 rounded-2xl bg-gradient-to-br from-valoCard to-valoMidnight border border-slate-700/60 p-6 shadow-2xl flex flex-col justify-between backdrop-blur-sm">
                         <div class="flex justify-between items-start">
                             <i class="bi bi-wallet2 text-3xl text-valoMint"></i>
-                            <span class="text-xs font-mono text-valoSlate">VALO CARD</span>
+                            <img src="lat_valo.png" alt="VALO" class="h-5 w-auto object-contain opacity-80">
                         </div>
                         <div>
-                            <div class="text-2xl font-mono tracking-widest mb-1">**** 2026</div>
-                            <div class="text-xs text-valoMint font-semibold">Solde Optimisé</div>
+                            <div class="text-2xl font-mono tracking-widest mb-1 text-slate-200">**** 2026</div>
+                            <div class="text-xs text-valoMint font-medium uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-valoMint animate-pulse"></span>
+                                Solde Optimisé
+                            </div>
                         </div>
                     </div>
-                    <div class="absolute -bottom-4 left-12 w-64 h-36 bg-valoCard/40 border border-slate-800 rounded-2xl -z-10 blur-[1px] transform rotate-3"></div>
+                    <div class="absolute -bottom-4 left-10 w-72 h-44 bg-slate-800/40 border border-slate-700/30 rounded-2xl -z-10 transform rotate-3 blur-[0.5px]"></div>
                 </div>
             </div>
 
-            <div class="flex justify-center md:justify-end">
-                <div class="w-full max-w-md bg-valoCard border border-slate-800 rounded-3xl p-8 lg:p-10 shadow-2xl text-center">
-                    <div class="w-16 h-16 rounded-2xl bg-valoMidnight border border-slate-700 flex items-center justify-center mx-auto mb-6">
-                        <i class="bi bi-shield-lock text-2xl text-valoMint"></i>
+            <div class="flex justify-end">
+                <div class="w-full max-w-md bg-valoCard border border-slate-800/80 rounded-3xl p-10 shadow-2xl text-center ring-1 ring-white/5">
+                    
+                    <div class="mb-6 flex justify-center">
+                        <img src="valo.png" alt="VALO Logo" class="h-24 w-auto object-contain drop-shadow">
                     </div>
                     
-                    <h3 class="text-xl font-bold mb-2">Espace de Connexion</h3>
+                    <h3 class="text-xl font-bold mb-1.5 tracking-tight">Espace de Connexion</h3>
                     <p class="text-valoSlate text-sm mb-8">Accédez en toute sécurité à vos portefeuilles virtuels.</p>
 
-                    <button class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-3.5 px-6 rounded-xl transition duration-300 shadow-lg shadow-valoMint/10 mb-6 flex items-center justify-center gap-2">
-                        <i class="bi bi-key-fill"></i>
+                    <button class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-3.5 px-6 rounded-xl transition duration-300 shadow-lg shadow-valoMint/10 mb-6 flex items-center justify-center gap-2 active:scale-[0.99]">
+                        <i class="bi bi-shield-lock-fill"></i>
                         Se Connecter
                     </button>
 
                     <div class="relative flex py-2 items-center">
-                        <div class="flex-grow border-t border-slate-700/60"></div>
-                        <span class="flex-shrink mx-4 text-valoSlate text-xs uppercase tracking-wider">Sécurité</span>
-                        <div class="flex-grow border-t border-slate-700/60"></div>
+                        <div class="flex-grow border-t border-slate-700/50"></div>
+                        <span class="flex-shrink mx-4 text-valoSlate text-xs uppercase tracking-widest font-semibold">Sécurité</span>
+                        <div class="flex-grow border-t border-slate-700/50"></div>
                     </div>
 
                     <div class="mt-6">
                         <a href="#" class="text-sm text-valoSlate hover:text-white transition duration-200 inline-flex items-center gap-2 group">
-                            <span>continuer en tant que : <strong class="text-valoMint group-hover:underline" id="user-firstname">...</strong></span>
+                            <span>continuer en tant que : <strong class="text-valoMint font-semibold group-hover:underline" id="user-firstname">...</strong></span>
                             <i class="bi bi-arrow-right text-xs transition group-hover:translate-x-1"></i>
                         </a>
                     </div>
@@ -125,16 +134,16 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Tente de récupérer le prénom dans le stockage local
+            // Tente de récupérer le prénom stocké
             let firstname = localStorage.getItem('valo_user_name');
             
-            // Si vide, on injecte Henoch par défaut pour ton test
+            // Initialisation par défaut si nécessaire
             if (!firstname) {
                 firstname = "Henoch"; 
                 localStorage.setItem('valo_user_name', firstname);
             }
             
-            // Injection dans le texte HTML
+            // Rendu dynamique du prénom dans la zone PC
             document.getElementById('user-firstname').textContent = firstname;
         });
     </script>
