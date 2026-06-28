@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <script>
-        // Configuration de la palette de couleurs VALO
         tailwind.config = {
             theme: {
                 extend: {
@@ -17,7 +16,8 @@
                         valoMint: '#10B981',
                         valoMintHover: '#059669',
                         valoSlate: '#64748B',
-                        valoCard: '#1E293B'
+                        valoCard: '#1E293B',
+                        valoCrimson: '#EF4444'
                     }
                 }
             }
@@ -37,33 +37,28 @@
 
     <div class="block md:hidden flex flex-col justify-between h-full p-6 text-center">
         <div class="mt-6 flex flex-col items-center">
-            <img src="valo.png" alt="VALO Logo" class="h-32 w-auto object-contain mb-2 drop-shadow-lg">
+            <img src="valo.png" alt="VALO Logo" class="h-32 w-auto object-contain mb-2">
         </div>
-
         <div class="my-auto max-w-sm mx-auto px-4 space-y-3">
             <h2 class="text-2xl font-extrabold tracking-tight text-valoMint">Valorisez votre argent.</h2>
             <p class="text-valoSlate text-sm leading-relaxed">
-                Prenez le contrôle absolu de votre budget quotidien, suivez vos dépenses en temps réel et optimisez chaque centime avec une clarté totale.
+                Prenez le contrôle absolu de votre budget quotidien, suivez vos dépenses en temps réel et optimisez chaque centime.
             </p>
         </div>
-
         <div class="mb-6 w-full max-w-sm mx-auto space-y-4">
-            <button class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-4 px-6 rounded-xl transition duration-300 shadow-lg shadow-valoMint/20 flex items-center justify-center gap-3 active:scale-[0.98]">
+            <button class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-4 px-6 rounded-xl transition duration-300 shadow-lg shadow-valoMint/20 flex items-center justify-center gap-3">
                 <i class="bi bi-box-arrow-down text-xl"></i>
                 Télécharger l'application VALO
             </button>
-            
             <div class="flex justify-center gap-6 text-valoSlate text-2xl">
-                <i class="bi bi-apple hover:text-white transition-colors duration-200"></i>
-                <i class="bi bi-google-play hover:text-white transition-colors duration-200"></i>
+                <i class="bi bi-apple"></i>
+                <i class="bi bi-google-play"></i>
             </div>
         </div>
     </div>
 
-
     <div class="hidden md:flex h-full w-full items-center justify-center p-8 lg:p-16 relative overflow-hidden">
-        
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.08),transparent_45%)] pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.06),transparent_45%)] pointer-events-none"></div>
 
         <div class="max-w-6xl w-full grid grid-cols-2 gap-16 items-center z-10">
             
@@ -71,18 +66,16 @@
                 <div class="flex items-center">
                     <img src="lat_valo.png" alt="VALO" class="h-12 w-auto object-contain">
                 </div>
-                
                 <div class="space-y-4">
                     <h2 class="text-4xl lg:text-5xl font-black tracking-tight leading-tight">
                         Maîtrisez votre <br><span class="text-valoMint">Budget</span>, partout.
                     </h2>
                     <p class="text-valoSlate text-lg max-w-md leading-relaxed">
-                        Une interface épurée conçue pour les professionnels et les particuliers qui exigent de la précision dans leur gestion financière.
+                        Une interface épurée conçue pour la précision et la clarté financière.
                     </p>
                 </div>
-                
                 <div class="relative pt-4">
-                    <div class="animate-float w-80 h-48 rounded-2xl bg-gradient-to-br from-valoCard to-valoMidnight border border-slate-700/60 p-6 shadow-2xl flex flex-col justify-between backdrop-blur-sm">
+                    <div class="animate-float w-80 h-48 rounded-2xl bg-gradient-to-br from-valoCard to-valoMidnight border border-slate-700/60 p-6 shadow-2xl flex flex-col justify-between">
                         <div class="flex justify-between items-start">
                             <i class="bi bi-wallet2 text-3xl text-valoMint"></i>
                             <img src="lat_valo.png" alt="VALO" class="h-5 w-auto object-contain opacity-80">
@@ -95,36 +88,62 @@
                             </div>
                         </div>
                     </div>
-                    <div class="absolute -bottom-4 left-10 w-72 h-44 bg-slate-800/40 border border-slate-700/30 rounded-2xl -z-10 transform rotate-3 blur-[0.5px]"></div>
                 </div>
             </div>
 
             <div class="flex justify-end">
                 <div class="w-full max-w-md bg-valoCard border border-slate-800/80 rounded-3xl p-10 shadow-2xl text-center ring-1 ring-white/5">
                     
-                    <div class="mb-6 flex justify-center">
-                        <img src="valo.png" alt="VALO Logo" class="h-24 w-auto object-contain drop-shadow">
+                    <div class="mb-4 flex justify-center">
+                        <img src="valo.png" alt="VALO Logo" class="h-20 w-auto object-contain">
                     </div>
                     
                     <h3 class="text-xl font-bold mb-1.5 tracking-tight">Espace de Connexion</h3>
-                    <p class="text-valoSlate text-sm mb-8">Accédez en toute sécurité à vos portefeuilles virtuels.</p>
+                    <p class="text-valoSlate text-sm mb-6">Connectez-vous à votre coffre virtuel.</p>
 
-                    <button class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-3.5 px-6 rounded-xl transition duration-300 shadow-lg shadow-valoMint/10 mb-6 flex items-center justify-center gap-2 active:scale-[0.99]">
-                        <i class="bi bi-shield-lock-fill"></i>
-                        Se Connecter
-                    </button>
+                    <div id="error-message" class="hidden mb-4 p-3 bg-valoCrimson/10 border border-valoCrimson/30 rounded-xl text-valoCrimson text-xs flex items-center gap-2 text-left">
+                        <i class="bi bi-exclamation-triangle-fill text-sm"></i>
+                        <span id="error-text">Identifiants incorrects.</span>
+                    </div>
 
-                    <div class="relative flex py-2 items-center">
+                    <form id="login-form" class="space-y-4 text-left">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-valoSlate mb-1.5">Nom d'utilisateur</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-valoSlate">
+                                    <i class="bi bi-person-fill"></i>
+                                </span>
+                                <input type="text" id="username" required class="w-full bg-valoMidnight border border-slate-700/60 rounded-xl py-3 pl-10 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-valoMint focus:ring-1 focus:ring-valoMint transition" placeholder="Ex: henoch">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-valoSlate mb-1.5">Mot de passe</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-valoSlate">
+                                    <i class="bi bi-lock-fill"></i>
+                                </span>
+                                <input type="password" id="password" required class="w-full bg-valoMidnight border border-slate-700/60 rounded-xl py-3 pl-10 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-valoMint focus:ring-1 focus:ring-valoMint transition" placeholder="••••••••">
+                            </div>
+                        </div>
+
+                        <button type="submit" id="btn-submit" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-3.5 px-6 rounded-xl transition duration-300 shadow-lg shadow-valoMint/10 mt-2 flex items-center justify-center gap-2 active:scale-[0.99]">
+                            <span id="btn-text">Se Connecter</span>
+                            <i class="bi bi-shield-lock-fill"></i>
+                        </button>
+                    </form>
+
+                    <div class="relative flex py-4 items-center">
                         <div class="flex-grow border-t border-slate-700/50"></div>
-                        <span class="flex-shrink mx-4 text-valoSlate text-xs uppercase tracking-widest font-semibold">Sécurité</span>
+                        <span class="flex-shrink mx-4 text-valoSlate text-xs uppercase tracking-widest font-semibold">Session</span>
                         <div class="flex-grow border-t border-slate-700/50"></div>
                     </div>
 
-                    <div class="mt-6">
-                        <a href="#" class="text-sm text-valoSlate hover:text-white transition duration-200 inline-flex items-center gap-2 group">
+                    <div class="mt-2">
+                        <button id="quick-connect-btn" class="text-sm text-valoSlate hover:text-white transition duration-200 inline-flex items-center gap-2 group focus:outline-none">
                             <span>continuer en tant que : <strong class="text-valoMint font-semibold group-hover:underline" id="user-firstname">...</strong></span>
                             <i class="bi bi-arrow-right text-xs transition group-hover:translate-x-1"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -132,58 +151,70 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { loginWithUsername } from './js/config.js';
+
         document.addEventListener("DOMContentLoaded", () => {
-            // Tente de récupérer le prénom stocké
-            let firstname = localStorage.getItem('valo_user_name');
+            const loginForm = document.getElementById('login-form');
+            const errorZone = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            const btnText = document.getElementById('btn-text');
+            const btnSubmit = document.getElementById('btn-submit');
             
-            // Initialisation par défaut si nécessaire
-            if (!firstname) {
-                firstname = "Henoch"; 
-                localStorage.setItem('valo_user_name', firstname);
+            // Gestion de l'affichage du nom d'utilisateur précédent
+            let savedUsername = localStorage.getItem('valo_user_name');
+            if (!savedUsername) {
+                savedUsername = "Henoch"; // Valeur initiale par défaut
+                localStorage.setItem('valo_user_name', savedUsername);
             }
-            
-            // Rendu dynamique du prénom dans la zone PC
-            document.getElementById('user-firstname').textContent = firstname;
-        });
-    </script>
+            document.getElementById('user-firstname').textContent = savedUsername;
 
-    <link rel="manifest" href="manifest.json">
-
-    <script>
-        // 1. Enregistrement du Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker enregistré avec succès !'))
-                    .catch(err => console.warn('Erreur d\'enregistrement du SW :', err));
+            // Remplissage automatique si clic sur "continuer en tant que"
+            document.getElementById('quick-connect-btn').addEventListener('click', () => {
+                document.getElementById('username').value = savedUsername.toLowerCase();
+                document.getElementById('password').focus();
             });
-        }
 
-        // 2. Interception de l'installation pour le bouton personnalisé
-        let deferredPrompt;
-        const downloadBtn = document.querySelector('button class*="bg-valoMint"'); // Cible votre bouton de téléchargement mobile
+            // Soumission du formulaire à Firebase
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorZone.classList.add('hidden');
+                
+                const usernameVal = document.getElementById('username').value;
+                const passwordVal = document.getElementById('password').value;
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Empêche la barre de navigation native d'apparaître
-            e.preventDefault();
-            // Stocke l'événement pour le déclencher plus tard
-            deferredPrompt = e;
-            
-            // On s'assure que le bouton est bien fonctionnel
-            if (downloadBtn) {
-                downloadBtn.addEventListener('click', () => {
-                    // Affiche la boîte de dialogue d'installation native
-                    deferredPrompt.prompt();
-                    // Attend la réponse de l'utilisateur
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('L\'utilisateur a installé VALO');
-                        }
-                        deferredPrompt = null;
-                    });
-                });
-            }
+                // Mode visuel chargement
+                btnSubmit.disabled = true;
+                btnText.textContent = "Vérification en cours...";
+
+                try {
+                    // Appel de la méthode exportée depuis js/config.js
+                    const user = await loginWithUsername(usernameVal, passwordVal);
+                    
+                    // Sauvegarde du dernier utilisateur connecté avec succès
+                    localStorage.setItem('valo_user_name', usernameVal);
+                    
+                    // Connexion réussie : Redirection vers le tableau de bord
+                    console.log("Bienvenue", user);
+                    window.location.href = "./dashboard.html"; 
+
+                } catch (error) {
+                    // Gestion et affichage des erreurs propres
+                    errorZone.classList.remove('hidden');
+                    if (error.message.includes("auth/invalid-credential") || error.message.includes("user-not-found")) {
+                        errorText.textContent = "Nom d'utilisateur ou mot de passe incorrect.";
+                    } else if (error.message.includes("network-request-failed")) {
+                        errorText.textContent = "Erreur de réseau. Vérifiez votre connexion.";
+                    } else {
+                        errorText.textContent = "Une erreur est survenue lors de la connexion.";
+                    }
+                    console.error(error);
+                } finally {
+                    // Restauration du bouton
+                    btnSubmit.disabled = false;
+                    btnText.textContent = "Se Connecter";
+                }
+            });
         });
     </script>
 </body>
