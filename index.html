@@ -147,5 +147,44 @@
             document.getElementById('user-firstname').textContent = firstname;
         });
     </script>
+
+    <link rel="manifest" href="manifest.json">
+
+    <script>
+        // 1. Enregistrement du Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker enregistré avec succès !'))
+                    .catch(err => console.warn('Erreur d\'enregistrement du SW :', err));
+            });
+        }
+
+        // 2. Interception de l'installation pour le bouton personnalisé
+        let deferredPrompt;
+        const downloadBtn = document.querySelector('button class*="bg-valoMint"'); // Cible votre bouton de téléchargement mobile
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Empêche la barre de navigation native d'apparaître
+            e.preventDefault();
+            // Stocke l'événement pour le déclencher plus tard
+            deferredPrompt = e;
+            
+            // On s'assure que le bouton est bien fonctionnel
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', () => {
+                    // Affiche la boîte de dialogue d'installation native
+                    deferredPrompt.prompt();
+                    // Attend la réponse de l'utilisateur
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('L\'utilisateur a installé VALO');
+                        }
+                        deferredPrompt = null;
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
