@@ -1,9 +1,9 @@
-// config.js
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// Ajout des SDKs nécessaires pour l'authentification et la base de données Firestore
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+// js/config.js
+
+// Utilisation des CDN ES Modules officiels de Firebase pour la production browser / GitHub Pages
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // Configuration Firebase de VALO
 const firebaseConfig = {
@@ -18,9 +18,8 @@ const firebaseConfig = {
 
 // Initialisation de Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
-// Initialisation des services essentiels
+// Initialisation des services essentiels exportés
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
@@ -41,7 +40,7 @@ export const loginWithUsername = async (username, password) => {
 };
 
 /**
- * Fonction optionnelle pour créer un compte avec un nom d'utilisateur standard
+ * Fonction pour créer un compte avec un nom d'utilisateur standard
  * @param {string} username - Le nom d'utilisateur choisi
  * @param {string} password - Le mot de passe
  */
