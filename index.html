@@ -32,6 +32,12 @@
             animation: float 4s ease-in-out infinite;
         }
     </style>
+    
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    
 </head>
 <body class="bg-valoMidnight text-white h-full font-sans antialiased selection:bg-valoMint selection:text-valoMidnight">
 
@@ -217,5 +223,53 @@
             });
         });
     </script>
+
+    <script type="module">
+    // Enregistrement du Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('SW installé !'))
+                .catch(err => console.log('Erreur SW', err));
+        });
+    }
+
+    // Gestion de l'installation PWA via le bouton vert
+    let deferredPrompt;
+    
+    // On cible le bouton de téléchargement (vue mobile)
+    const downloadBtn = document.querySelector('.block\\:hidden button, button:contains("Télécharger")') || document.getElementsByTagName('button')[0];
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Empêche le navigateur d'afficher sa propre mini-bannière du bas
+        e.preventDefault();
+        // On stocke l'événement
+        deferredPrompt = e;
+        
+        console.log("VALO est prête à être installée !");
+
+        // On écoute le clic sur votre bouton vert
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', () => {
+                // Déclenche l'installation native
+                deferredPrompt.prompt();
+                
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('L\'utilisateur a installé VALO');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        }
+    });
+
+    // Optionnel : masquer le bouton si l'appli est déjà installée
+    window.addEventListener('appinstalled', () => {
+        console.log('VALO a été installée avec succès !');
+        deferredPrompt = null;
+    });
+</script>
+    
 </body>
 </html>
