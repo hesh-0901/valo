@@ -24,7 +24,7 @@
         }
     </script>
 
-    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="icons/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
@@ -98,65 +98,57 @@
                 </h1>
                 <p class="text-valoSlate text-xs md:text-sm">Voici l'état actuel de vos finances.</p>
             </div>
-            <span id="current-period" class="text-xs bg-slate-800 border border-slate-700/50 px-3 py-1.5 rounded-full text-slate-300 font-medium font-mono">
-                ...
-            </span>
+            
+            <div class="relative flex items-center bg-slate-800 border border-slate-700/50 rounded-full px-3 py-1.5 gap-2 text-xs font-medium text-slate-300 font-mono">
+                <i class="bi bi-calendar3 text-valoMint text-[11px]"></i>
+                <select id="global-range-filter" class="bg-transparent text-slate-300 font-bold focus:outline-none cursor-pointer pr-1 text-xs">
+                    <option value="month" id="opt-current-month" class="bg-slate-900 text-white">Ce mois</option>
+                    <option value="year" class="bg-slate-900 text-white">Année entière</option>
+                </select>
+            </div>
         </div>
 
-        <div class="space-y-4">
-            <div class="bg-gradient-to-br from-valoCard to-slate-900 border border-slate-800 p-5 md:p-6 rounded-2xl shadow-xl flex flex-col justify-between min-h-[120px] md:min-h-[140px] w-full">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            
+            <div class="col-span-2 md:col-span-1 bg-gradient-to-br from-valoCard to-slate-900 border border-slate-800 p-5 rounded-2xl shadow-xl flex flex-col justify-between min-h-[120px] md:min-h-[140px]">
                 <div class="flex items-center justify-between text-valoSlate">
                     <span class="text-xs font-semibold uppercase tracking-wider">Solde Total</span>
                     <i class="bi bi-wallet2 text-lg text-valoMint"></i>
                 </div>
                 <div>
-                    <h2 class="text-3xl font-mono font-bold tracking-tight mb-1" id="total-balance">0,00 $</h2>
+                    <h2 class="text-2xl md:text-3xl font-mono font-bold tracking-tight mb-1" id="total-balance">0,00 $</h2>
                     <p class="text-[11px] text-valoMint flex items-center gap-1">
                         <i class="bi bi-arrow-up-short text-base"></i> Restant disponible
                     </p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-                
-                <div class="bg-valoCard border border-slate-800/60 p-4 md:p-5 rounded-2xl flex flex-col justify-between min-h-[110px] md:min-h-[125px]">
-                    <div class="flex items-center justify-between text-valoSlate mb-1 gap-2">
-                        <span class="text-[10px] md:text-xs font-semibold uppercase tracking-wider truncate">Entrées</span>
-                        <div class="flex items-center gap-1.5 shrink-0">
-                            <select id="filter-income" class="bg-slate-900 border border-slate-800 rounded px-1 py-0.5 text-[10px] text-slate-400 font-bold focus:outline-none transition-all cursor-pointer">
-                                <option value="month">Mois</option>
-                                <option value="year">Année</option>
-                            </select>
-                            <i class="bi bi-arrow-down-left-circle-fill text-base text-valoMint"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h2 class="text-xl md:text-2xl font-mono font-bold tracking-tight text-slate-100" id="monthly-income">0,00 $</h2>
-                        <p class="text-[10px] text-valoSlate hidden sm:block">Flux cumulés</p>
-                    </div>
+            <div class="bg-valoCard border border-slate-800/60 p-4 md:p-5 rounded-2xl flex flex-col justify-between min-h-[110px] md:min-h-[140px]">
+                <div class="flex items-center justify-between text-valoSlate mb-1">
+                    <span class="text-[10px] md:text-xs font-semibold uppercase tracking-wider">Entrées</span>
+                    <i class="bi bi-arrow-down-left-circle-fill text-base md:text-lg text-valoMint"></i>
                 </div>
-
-                <div class="bg-valoCard border border-slate-800/60 p-4 md:p-5 rounded-2xl flex flex-col justify-between min-h-[110px] md:min-h-[125px]">
-                    <div class="flex items-center justify-between text-valoSlate mb-1 gap-2">
-                        <span class="text-[10px] md:text-xs font-semibold uppercase tracking-wider truncate">Sorties</span>
-                        <div class="flex items-center gap-1.5 shrink-0">
-                            <select id="filter-expenses" class="bg-slate-900 border border-slate-800 rounded px-1 py-0.5 text-[10px] text-slate-400 font-bold focus:outline-none transition-all cursor-pointer">
-                                <option value="month">Mois</option>
-                                <option value="year">Année</option>
-                            </select>
-                            <i class="bi bi-arrow-up-right-circle-fill text-base text-valoCrimson"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <h2 class="text-xl md:text-2xl font-mono font-bold tracking-tight text-slate-100" id="monthly-expenses">0,00 $</h2>
-                        <p class="text-[10px] text-valoSlate font-medium hidden sm:block">Sous contrôle</p>
-                    </div>
+                <div>
+                    <h2 class="text-xl md:text-2xl font-mono font-bold tracking-tight text-slate-100" id="monthly-income">0,00 $</h2>
+                    <p class="text-[10px] text-valoSlate hidden sm:block">Flux cumulés</p>
                 </div>
-
             </div>
+
+            <div class="bg-valoCard border border-slate-800/60 p-4 md:p-5 rounded-2xl flex flex-col justify-between min-h-[110px] md:min-h-[140px]">
+                <div class="flex items-center justify-between text-valoSlate mb-1">
+                    <span class="text-[10px] md:text-xs font-semibold uppercase tracking-wider">Sorties</span>
+                    <i class="bi bi-arrow-up-right-circle-fill text-base md:text-lg text-valoCrimson"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl md:text-2xl font-mono font-bold tracking-tight text-slate-100" id="monthly-expenses">0,00 $</h2>
+                    <p class="text-[10px] text-valoSlate font-medium hidden sm:block">Sous contrôle</p>
+                </div>
+            </div>
+
         </div>
         
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
             <div class="lg:col-span-1 space-y-4">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-valoSlate">Opérations Rapides</h3>
                 <div class="bg-valoCard border border-slate-800/60 rounded-2xl p-4 md:p-5 grid grid-cols-2 lg:grid-cols-1 gap-3">
@@ -182,6 +174,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
     </main>
