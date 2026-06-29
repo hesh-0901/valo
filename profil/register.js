@@ -33,22 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const val1 = q1Select.value;
         const val2 = q2Select.value;
 
-        // Réinitialise l'affichage des options de la question 2
         Array.from(q2Select.options).forEach(opt => {
-            if (opt.value !== "" && opt.value === val1) {
-                opt.style.display = 'none';
-            } else {
-                opt.style.display = 'block';
-            }
+            opt.style.display = (opt.value !== "" && opt.value === val1) ? 'none' : 'block';
         });
 
-        // Réinitialise l'affichage des options de la question 1
         Array.from(q1Select.options).forEach(opt => {
-            if (opt.value !== "" && opt.value === val2) {
-                opt.style.display = 'none';
-            } else {
-                opt.style.display = 'block';
-            }
+            opt.style.display = (opt.value !== "" && opt.value === val2) ? 'none' : 'block';
         });
     }
 
@@ -73,14 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         errorZone.classList.add('hidden');
 
-        // Validation des mots de passe
         if (password !== confirmPassword) {
             errorZone.classList.remove('hidden');
             errorText.textContent = "Les deux mots de passe ne correspondent pas.";
             return;
         }
 
-        // Validation de la longueur du mot de passe
         if (password.length < 6) {
             errorZone.classList.remove('hidden');
             errorText.textContent = "Le secret doit contenir au moins 6 caractères.";
@@ -91,36 +79,44 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.querySelector('span').textContent = "CRÉATION EN COURS...";
 
         try {
-            // Création de l'utilisateur dans Firebase Auth
+            // Étape A : Création dans Firebase Auth
             const user = await registerWithUsername(username, password);
 
-            // Structure du document profil sur Firestore
-            await setDoc(doc(db, "users", user.uid), {
-                uid: user.uid,
-                firstname: firstname,
-                lastname: lastname,
-                username: username,
-                createdAt: new Date().toISOString(),
-                security: {
-                    q1: question1,
-                    a1: answer1,
-                    q2: question2,
-                    a2: answer2
-                }
-            });
+            // Étape B : Écriture dans Firestore (Création automatique de la collection et du document)
+            try {
+                await setDoc(doc(db, "users", user.uid), {
+                    uid: user.uid,
+                    firstname: firstname,
+                    lastname: lastname,
+                    username: username,
+                    createdAt: new Date().toISOString(),
+                    security: {
+                        q1: question1,
+                        a1: answer1,
+                        q2: question2,
+                        a2: answer2
+                    }
+                });
 
-            // Sauvegarde de session locale pour l'accueil et redirection immédiate
-            localStorage.setItem('valo_user_name', firstname);
-            window.location.href = "../dashboard.html";
+                // Étape C : Succès complet, stockage local et redirection
+                localStorage.setItem('valo_user_name', firstname);
+                window.location.href = "../dashboard.html";
 
-        } catch (error) {
+            } catch (firestoreError) {
+                // Si l'auth a réussi mais que Firestore bloque (Règles de sécurité non publiées ou mauvaise config)
+                console.error("Détails de l'erreur Firestore :", firestoreError);
+                errorZone.classList.remove('hidden');
+                errorText.textContent = `Compte créé, mais liaison base de données refusée : ${firestoreError.message}`;
+            }
+
+        } catch (authError) {
             errorZone.classList.remove('hidden');
-            if (error.message.includes("email-already-in-use")) {
+            if (authError.message.includes("email-already-in-use")) {
                 errorText.textContent = "Ce nom d'utilisateur est déjà utilisé.";
             } else {
-                errorText.textContent = "Erreur système : Impossible de créer le profil.";
+                errorText.textContent = `Erreur d'authentification : ${authError.message}`;
             }
-            console.error(error);
+            console.error(authError);
         } finally {
             btn.disabled = false;
             btn.querySelector('span').textContent = "Créer mon compte";
