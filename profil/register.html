@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VALO - Créer un compte</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        valoMidnight: '#0F172A',
+                        valoMint: '#10B981',
+                        valoMintHover: '#059669',
+                        valoSlate: '#64748B',
+                        valoCard: '#1E293B',
+                        valoCrimson: '#EF4444'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media (max-width: 767px) {
+            .register-container {
+                height: 100vh;
+                width: 100vw;
+                border-radius: 0px !important;
+                border: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-valoMidnight text-white h-full font-sans antialiased overflow-x-hidden md:overflow-y-auto relative flex items-center justify-center py-0 md:py-12">
+
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.03),transparent_50%)] pointer-events-none"></div>
+
+    <div class="register-container w-full max-w-[520px] bg-valoCard border border-slate-800/80 rounded-[2rem] p-6 md:p-10 shadow-2xl flex flex-col justify-center z-10 relative">
+        
+        <div class="text-center mb-6 pt-6 md:pt-0">
+            <h3 class="text-2xl font-black tracking-tight">Créer un profil</h3>
+            <p class="text-valoSlate text-xs mt-1">Rejoignez l'écosystème financier sécurisé VALO</p>
+        </div>
+
+        <div id="error-message" class="hidden mb-4 p-4 bg-valoCrimson/10 border border-valoCrimson/20 rounded-xl text-valoCrimson text-xs flex items-center gap-3">
+            <i class="bi bi-shield-exclamation text-lg shrink-0"></i>
+            <span id="error-text">Veuillez corriger les erreurs.</span>
+        </div>
+
+        <form id="register-form" class="space-y-4">
+            
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold uppercase tracking-[0.15em] text-valoSlate ml-1">Prénom</label>
+                    <input type="text" id="firstname" required class="w-full bg-slate-900/60 border border-slate-800 focus:border-valoMint rounded-xl py-3 px-4 text-sm text-white focus:outline-none transition-all">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-bold uppercase tracking-[0.15em] text-valoSlate ml-1">Nom de famille</label>
+                    <input type="text" id="lastname" required class="w-full bg-slate-900/60 border border-slate-800 focus:border-valoMint rounded-xl py-3 px-4 text-sm text-white focus:outline-none transition-all">
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold uppercase tracking-[0.15em] text-valoSlate ml-1">Nom d'utilisateur</label>
+                <div class="relative flex items-center">
+                    <span class="absolute left-4 text-valoMint font-bold text-sm select-none pointer-events-none">@</span>
+                    <input type="text" id="username" required class="w-full bg-slate-900/60 border border-slate-800 focus:border-valoMint rounded-xl py-3.5 pl-9 pr-4 text-sm text-white focus:outline-none transition-all font-medium" placeholder="pseudo">
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold uppercase tracking-[0.15em] text-valoSlate ml-1">Mot de passe</label>
+                <div class="relative flex items-center">
+                    <i class="bi bi-key absolute left-4 text-valoSlate text-base pointer-events-none"></i>
+                    <input type="password" id="password" required class="w-full bg-slate-900/60 border border-slate-800 focus:border-valoMint rounded-xl py-3.5 pl-12 pr-12 text-sm text-white focus:outline-none transition-all">
+                    <button type="button" class="toggle-password absolute right-4 text-valoSlate hover:text-white transition" data-target="password">
+                        <i class="bi bi-eye text-base"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold uppercase tracking-[0.15em] text-valoSlate ml-1">Confirmer mot de passe</label>
+                <div class="relative flex items-center">
+                    <i class="bi bi-key-fill absolute left-4 text-valoSlate text-base pointer-events-none"></i>
+                    <input type="password" id="confirm-password" required class="w-full bg-slate-900/60 border border-slate-800 focus:border-valoMint rounded-xl py-3.5 pl-12 pr-12 text-sm text-white focus:outline-none transition-all">
+                    <button type="button" class="toggle-password absolute right-4 text-valoSlate hover:text-white transition" data-target="confirm-password">
+                        <i class="bi bi-eye text-base"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800/80 my-2 pt-3">
+                <h4 class="text-[11px] font-bold uppercase tracking-[0.15em] text-valoMint mb-3">Sécurité & Récupération (2 Questions)</h4>
+                
+                <div class="space-y-2 mb-3">
+                    <select id="question-1" required class="w-full bg-slate-900 border border-slate-800 focus:border-valoMint rounded-xl py-3 px-4 text-xs text-slate-300 focus:outline-none transition-all">
+                        <option value="" disabled selected>Choisir la première question...</option>
+                        <option value="1">Où as tu travaillé la première fois ?</option>
+                        <option value="2">Quel est le nom de la première personne que tu as aimé le plus ?</option>
+                        <option value="3">Quelle est la ville où tu es né(e) ?</option>
+                        <option value="4">Quel est ton mot préféré ?</option>
+                        <option value="5">Si tu crée ton entreprise ou si tu en as déjà crée quel est nom ?</option>
+                        <option value="6">Quel est ton animal de compagnie de préféré ?</option>
+                    </select>
+                    <input type="text" id="answer-1" required class="w-full bg-slate-900/40 border border-slate-800/80 focus:border-valoMint rounded-xl py-2.5 px-4 text-xs text-white placeholder-slate-600 focus:outline-none transition-all" placeholder="Votre réponse secrète">
+                </div>
+
+                <div class="space-y-2">
+                    <select id="question-2" required class="w-full bg-slate-900 border border-slate-800 focus:border-valoMint rounded-xl py-3 px-4 text-xs text-slate-300 focus:outline-none transition-all">
+                        <option value="" disabled selected>Choisir la deuxième question...</option>
+                        <option value="1">Où as tu travaillé la première fois ?</option>
+                        <option value="2">Quel est le nom de la première personne que tu as aimé le plus ?</option>
+                        <option value="3">Quelle est la ville où tu es né(e) ?</option>
+                        <option value="4">Quel est ton mot préféré ?</option>
+                        <option value="5">Si tu crée ton entreprise ou si tu en as déjà crée quel est nom ?</option>
+                        <option value="6">Quel est ton animal de compagnie de préféré ?</option>
+                    </select>
+                    <input type="text" id="answer-2" required class="w-full bg-slate-900/40 border border-slate-800/80 focus:border-valoMint rounded-xl py-2.5 px-4 text-xs text-white placeholder-slate-600 focus:outline-none transition-all" placeholder="Votre réponse secrète">
+                </div>
+            </div>
+
+            <button type="submit" id="btn-submit" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-3.5 rounded-xl transition shadow-lg shadow-valoMint/5 flex items-center justify-center gap-2 mt-4 text-xs tracking-wide uppercase">
+                <span>Créer mon compte</span>
+                <i class="bi bi-check-circle-fill"></i>
+            </button>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="../index.html" class="text-xs text-valoSlate hover:text-white transition">
+                Déjà inscrit ? Se connecter
+            </a>
+        </div>
+    </div>
+
+    <script type="module" src="register.js"></script>
+</body>
+</html>
