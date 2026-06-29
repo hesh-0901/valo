@@ -7,7 +7,7 @@ export function initRevenuModal(uid, closeCallback) {
     const closeBtn = document.getElementById('close-modal-revenu');
     const submitBtn = document.getElementById('submit-revenu');
 
-    // Date du jour automatique
+    // Date du jour automatique 
     document.getElementById('rev-date').value = new Date().toISOString().split('T')[0];
 
     // Actions fermeture
