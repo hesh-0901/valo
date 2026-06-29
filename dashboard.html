@@ -23,6 +23,11 @@
             }
         }
     </script>
+
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body class="bg-valoMidnight text-white h-full font-sans antialiased selection:bg-valoMint selection:text-valoMidnight flex flex-col md:flex-row">
 
@@ -47,14 +52,14 @@
         <div class="flex items-center justify-between md:mt-auto w-full md:pt-4 md:border-t md:border-slate-800/80">
             <div class="flex items-center gap-2.5 text-left">
                 <div class="w-9 h-9 rounded-full bg-valoMint/10 border border-valoMint/30 flex items-center justify-center text-valoMint font-bold text-sm" id="user-avatar">
-                    H
+                    -
                 </div>
                 <div class="hidden md:block">
                     <p class="text-sm font-semibold tracking-tight" id="profile-name">...</p>
                     <span class="text-[10px] text-valoMint uppercase tracking-wider font-medium">Porte-monnaie</span>
                 </div>
             </div>
-            <button id="btn-logout" class="text-valoSlate hover:text-valoCrimson text-xl p-2 rounded-lg transition" title="Se déconnecter">
+            <button id="btn-logout" class="text-valoSlate hover:text-valoCrimson text-xl p-2 rounded-lg transition">
                 <i class="bi bi-box-arrow-right"></i>
             </button>
         </div>
@@ -62,7 +67,7 @@
 
     <main class="flex-grow p-4 md:p-8 lg:p-10 space-y-6 overflow-y-auto max-w-7xl mx-auto w-full">
         
-       <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-xl md:text-2xl font-black tracking-tight flex items-center gap-2">
                     Bonjour, <span class="text-valoMint" id="welcome-name">...</span>
@@ -72,7 +77,6 @@
             <span class="text-xs bg-slate-800 border border-slate-700/50 px-3 py-1.5 rounded-full text-slate-300 font-medium font-mono">
                 Juin 2026
             </span>
-        </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -113,7 +117,6 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
             <div class="lg:col-span-1 space-y-4">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-valoSlate">Opérations Rapides</h3>
                 <div class="bg-valoCard border border-slate-800/60 rounded-2xl p-5 space-y-3">
@@ -139,7 +142,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
     </main>
@@ -154,40 +156,26 @@
             const userAvatar = document.getElementById('user-avatar');
             const btnLogout = document.getElementById('btn-logout');
 
-            // 1. Protection de la route : Vérifier si un utilisateur est bien connecté
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    // L'utilisateur est connecté ! Récupération du pseudo
-                    // On extrait le nom d'utilisateur de l'e-mail virtuel (ex: henoch@valo.local -> Henoch)
                     const email = user.email || "";
                     const username = email.split('@')[0];
                     const cleanName = username.charAt(0).toUpperCase() + username.slice(1);
 
-                    // Mise à jour de l'interface
                     welcomeName.textContent = cleanName;
                     profileName.textContent = cleanName;
                     userAvatar.textContent = cleanName.charAt(0);
-                    
-                    console.log("Session active pour :", cleanName);
-                    
-                    // Ici, nous ajouterons plus tard l'appel Firestore pour charger ses vrais soldes :
-                    // loadUserFinancialData(user.uid);
-                    
                 } else {
-                    // Aucun utilisateur connecté -> Redirection immédiate vers la page de connexion
-                    console.warn("Accès refusé. Redirection...");
                     window.location.href = "./index.html";
                 }
             });
 
-            // 2. Gestion de la déconnexion
             btnLogout.addEventListener('click', async () => {
                 try {
                     await signOut(auth);
-                    console.log("Utilisateur déconnecté.");
                     window.location.href = "./index.html";
                 } catch (error) {
-                    console.error("Erreur lors de la déconnexion :", error);
+                    console.error(error);
                 }
             });
         });
