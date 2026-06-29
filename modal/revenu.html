@@ -1,0 +1,34 @@
+<div id="modal-revenu" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="w-full max-w-md bg-valoCard border border-slate-800/90 rounded-[2rem] p-6 shadow-2xl relative">
+        <button id="close-modal-revenu" class="absolute right-6 top-6 text-valoSlate hover:text-white"><i class="bi bi-x-lg text-lg"></i></button>
+        
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-valoMint/10 text-valoMint text-lg"><i class="bi bi-arrow-down-left-circle-fill"></i></div>
+            <div>
+                <h2 class="text-lg font-black tracking-tight">Nouvelle Entrée (Revenu)</h2>
+                <p class="text-valoSlate text-[11px]">Créditer votre portefeuille virtuel</p>
+            </div>
+        </div>
+
+        <form id="form-revenu" class="space-y-4">
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold uppercase tracking-wider text-valoSlate ml-1">Montant (USD)</label>
+                <div class="relative flex items-center">
+                    <span class="absolute left-4 text-valoSlate font-bold">$</span>
+                    <input type="number" id="rev-amount" step="0.01" required class="w-full bg-slate-900/80 border border-slate-800 focus:border-valoMint rounded-xl py-3 pl-8 pr-4 text-sm font-mono font-bold text-white focus:outline-none" placeholder="0.00">
+                </div>
+            </div>
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold uppercase tracking-wider text-valoSlate ml-1">Source / Description</label>
+                <input type="text" id="rev-desc" required class="w-full bg-slate-900/80 border border-slate-800 focus:border-valoMint rounded-xl py-3 px-4 text-sm text-white focus:outline-none" placeholder="Ex: Vente costume, Rémunération UI...">
+            </div>
+            <div class="space-y-1.5">
+                <label class="text-[10px] font-bold uppercase tracking-wider text-valoSlate ml-1">Date</label>
+                <input type="date" id="rev-date" required class="w-full bg-slate-900/80 border border-slate-800 focus:border-valoMint rounded-xl py-3 px-4 text-sm font-mono text-white focus:outline-none">
+            </div>
+            <button type="submit" id="submit-revenu" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-3.5 rounded-xl transition flex items-center justify-center gap-2 text-xs uppercase tracking-widest mt-6 shadow-md shadow-valoMint/10">
+                <span>Enregistrer le revenu</span><i class="bi bi-check-circle-fill"></i>
+            </button>
+        </form>
+    </div>
+</div>
