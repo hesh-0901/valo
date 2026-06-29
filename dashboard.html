@@ -103,43 +103,45 @@
             </span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="bg-gradient-to-br from-valoCard to-slate-900 border border-slate-800 p-5 md:p-6 rounded-2xl shadow-xl flex flex-col justify-between min-h-[120px] md:min-h-[140px]">
-                <div class="flex items-center justify-between text-valoSlate">
-                    <span class="text-xs font-semibold uppercase tracking-wider">Solde Total</span>
-                    <i class="bi bi-wallet2 text-lg text-valoMint"></i>
+           <div class="space-y-4">
+                <div class="bg-gradient-to-br from-valoCard to-slate-900 border border-slate-800 p-5 md:p-6 rounded-2xl shadow-xl flex flex-col justify-between min-h-[120px] md:min-h-[140px] w-full">
+                    <div class="flex items-center justify-between text-valoSlate">
+                        <span class="text-xs font-semibold uppercase tracking-wider">Solde Total</span>
+                        <i class="bi bi-wallet2 text-lg text-valoMint"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-mono font-bold tracking-tight mb-1" id="total-balance">0,00 $</h2>
+                        <p class="text-[11px] text-valoMint flex items-center gap-1">
+                            <i class="bi bi-arrow-up-short text-base"></i> Restant disponible
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="text-2xl md:text-3xl font-mono font-bold tracking-tight mb-1" id="total-balance">0,00 $</h2>
-                    <p class="text-[11px] text-valoMint flex items-center gap-1">
-                        <i class="bi bi-arrow-up-short text-base"></i> Restant disponible
-                    </p>
+    
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-valoCard border border-slate-800/60 p-4 md:p-5 rounded-2xl flex flex-col justify-between min-h-[110px] md:min-h-[125px]">
+                        <div class="flex items-center justify-between text-valoSlate mb-1">
+                            <span class="text-[10px] md:text-xs font-semibold uppercase tracking-wider">Entrées</span>
+                            <i class="bi bi-arrow-down-left-circle-fill text-base md:text-lg text-valoMint"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl md:text-2xl font-mono font-bold tracking-tight text-slate-100" id="monthly-income">0,00 $</h2>
+                            <p class="text-[10px] text-valoSlate hidden sm:block">Flux cumulés</p>
+                        </div>
+                    </div>
+    
+                    <div class="bg-valoCard border border-slate-800/60 p-4 md:p-5 rounded-2xl flex flex-col justify-between min-h-[110px] md:min-h-[125px]">
+                        <div class="flex items-center justify-between text-valoSlate mb-1">
+                            <span class="text-[10px] md:text-xs font-semibold uppercase tracking-wider">Sorties</span>
+                            <i class="bi bi-arrow-up-right-circle-fill text-base md:text-lg text-valoCrimson"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl md:text-2xl font-mono font-bold tracking-tight text-slate-100" id="monthly-expenses">0,00 $</h2>
+                            <p class="text-[10px] text-valoSlate font-medium hidden sm:block">Sous contrôle</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="bg-valoCard border border-slate-800/60 p-5 md:p-6 rounded-2xl flex flex-col justify-between min-h-[120px] md:min-h-[140px]">
-                <div class="flex items-center justify-between text-valoSlate">
-                    <span class="text-xs font-semibold uppercase tracking-wider">Entrées</span>
-                    <i class="bi bi-arrow-down-left-circle-fill text-lg text-valoMint"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-mono font-bold tracking-tight text-slate-100" id="monthly-income">0,00 $</h2>
-                    <p class="text-[11px] text-valoSlate">Flux de revenus cumulés</p>
-                </div>
-            </div>
-
-            <div class="bg-valoCard border border-slate-800/60 p-5 md:p-6 rounded-2xl sm:col-span-2 lg:col-span-1 flex flex-col justify-between min-h-[120px] md:min-h-[140px]">
-                <div class="flex items-center justify-between text-valoSlate">
-                    <span class="text-xs font-semibold uppercase tracking-wider">Sorties</span>
-                    <i class="bi bi-arrow-up-right-circle-fill text-lg text-valoCrimson"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-mono font-bold tracking-tight text-slate-100" id="monthly-expenses">0,00 $</h2>
-                    <p class="text-[11px] text-valoSlate font-medium">Limite budgétaire sous contrôle</p>
-                </div>
-            </div>
-        </div>
-
+        
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             <div class="lg:col-span-1 space-y-4">
