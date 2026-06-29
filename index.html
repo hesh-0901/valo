@@ -31,6 +31,36 @@
         .animate-float {
             animation: float 4s ease-in-out infinite;
         }
+        /* Si l'application est lancée en mode installé (Standalone) */
+        @media (display-mode: standalone) {
+            /* Cache l'interface d'installation mobile */
+            .block.md\:hidden {
+                display: none !important;
+            }
+            
+            /* Force l'affichage du bloc de connexion (qui était caché sur mobile) */
+            .hidden.md\:flex {
+                display: flex !important;
+                height: 100% !important;
+                width: 100% !important;
+            }
+            
+            /* Optionnel : Masque la colonne gauche (visuelle) sur mobile installé 
+               pour ne garder QUE le formulaire de connexion au centre */
+            @media (max-width: 767px) {
+                .max-w-6xl.w-full.grid {
+                    grid-template-columns: 1fr !important;
+                }
+                /* Cache l'illustration animée à gauche */
+                .max-w-6xl .space-y-8 {
+                    display: none !important;
+                }
+                /* Centre le bloc de connexion */
+                .flex.justify-end {
+                    justify-content: center !important;
+                }
+            }
+        }
     </style>
     
     <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
@@ -158,6 +188,17 @@
     </div>
 
     <script type="module">
+
+        document.addEventListener("DOMContentLoaded", () => {
+        // Vérifie si l'application s'exécute en mode PWA installé
+        const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    
+        if (isPWA) {
+            console.log("VALO s'exécute en mode Application Installée.");
+            // Vous pouvez ajouter ici une logique spécifique si nécessaire,
+            // mais le CSS ci-dessus se charge déjà de basculer l'affichage.
+        }
+    });
         import { loginWithUsername } from './js/config.js';
 
         document.addEventListener("DOMContentLoaded", () => {
