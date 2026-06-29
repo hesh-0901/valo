@@ -29,14 +29,13 @@
     <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
 </head>
-<body class="bg-valoMidnight text-white h-full font-sans antialiased selection:bg-valoMint selection:text-valoMidnight flex flex-col md:flex-row">
+<body class="bg-valoMidnight text-white h-full font-sans antialiased selection:bg-valoMint selection:text-valoMidnight flex flex-col md:flex-row pb-16 md:pb-0">
 
-    <nav class="bg-valoCard border-b border-slate-800 md:border-b-0 md:border-r md:border-slate-800/60 w-full md:w-64 flex md:flex-col justify-between p-4 md:p-6 shrink-0 z-20">
-        <div class="flex items-center md:flex-col md:items-start gap-4 w-full md:space-y-8">
-            <img src="lat_valo.png" alt="VALO" class="h-7 w-auto object-contain hidden md:block">
-            <img src="valo.png" alt="VALO" class="h-8 w-auto object-contain md:hidden">
+    <nav class="hidden md:flex bg-valoCard border-r border-slate-800/60 w-64 flex-col justify-between p-6 shrink-0 z-20">
+        <div class="flex flex-col items-start gap-4 w-full space-y-8">
+            <img src="lat_valo.png" alt="VALO" class="h-7 w-auto object-contain">
             
-            <div class="hidden md:flex flex-col gap-2 w-full">
+            <div class="flex flex-col gap-2 w-full">
                 <a href="#" class="flex items-center gap-3 bg-slate-800 text-valoMint font-medium px-4 py-3 rounded-xl transition">
                     <i class="bi bi-grid-1x2-fill"></i> Vue globale
                 </a>
@@ -49,53 +48,78 @@
             </div>
         </div>
 
-        <div class="flex items-center justify-between md:mt-auto w-full md:pt-4 md:border-t md:border-slate-800/80">
+        <div class="flex items-center justify-between w-full pt-4 border-t border-slate-800/80">
             <div class="flex items-center gap-2.5 text-left">
-                <div class="w-9 h-9 rounded-full bg-valoMint/10 border border-valoMint/30 flex items-center justify-center text-valoMint font-bold text-sm" id="user-avatar">
+                <div class="w-9 h-9 rounded-full bg-valoMint/10 border border-valoMint/30 flex items-center justify-center text-valoMint font-bold text-sm-avatar md-avatar">
                     -
                 </div>
-                <div class="hidden md:block">
-                    <p class="text-sm font-semibold tracking-tight" id="profile-name">...</p>
+                <div>
+                    <p class="text-sm font-semibold tracking-tight profile-name">...</p>
                     <span class="text-[10px] text-valoMint uppercase tracking-wider font-medium">Porte-monnaie</span>
                 </div>
             </div>
-            <button id="btn-logout" class="text-valoSlate hover:text-valoCrimson text-xl p-2 rounded-lg transition">
+            <button class="btn-logout text-valoSlate hover:text-valoCrimson text-xl p-2 rounded-lg transition">
                 <i class="bi bi-box-arrow-right"></i>
             </button>
         </div>
+    </nav>
+
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-valoCard/95 backdrop-blur-lg border-t border-slate-800/80 flex justify-around items-center py-2 px-4 z-30 shadow-2xl">
+        <a href="#" class="flex flex-col items-center gap-0.5 text-valoMint text-xs font-semibold px-3 py-1">
+            <i class="bi bi-grid-1x2-fill text-lg"></i>
+            <span>Global</span>
+        </a>
+        <a href="#" class="flex flex-col items-center gap-0.5 text-valoSlate hover:text-white text-xs px-3 py-1">
+            <i class="bi bi-arrow-left-right text-lg"></i>
+            <span>Flux</span>
+        </a>
+        <a href="#" class="flex flex-col items-center gap-0.5 text-valoSlate hover:text-white text-xs px-3 py-1">
+            <i class="bi bi-pie-chart-fill text-lg"></i>
+            <span>Budgets</span>
+        </a>
+        <button class="btn-logout flex flex-col items-center gap-0.5 text-valoSlate hover:text-valoCrimson text-xs px-3 py-1">
+            <i class="bi bi-box-arrow-right text-lg"></i>
+            <span>Sortie</span>
+        </button>
     </nav>
 
     <main class="flex-grow p-4 md:p-8 lg:p-10 space-y-6 overflow-y-auto max-w-7xl mx-auto w-full">
         
         <div class="flex items-center justify-between">
             <div>
+                <div class="flex items-center gap-3 md:hidden mb-2">
+                    <img src="valo.png" alt="VALO" class="h-6 w-auto object-contain">
+                    <div class="w-6 h-6 rounded-full bg-valoMint/10 border border-valoMint/30 flex items-center justify-center text-valoMint font-bold text-[10px] mobile-avatar">
+                        -
+                    </div>
+                </div>
                 <h1 class="text-xl md:text-2xl font-black tracking-tight flex items-center gap-2">
                     Bonjour, <span class="text-valoMint" id="welcome-name">...</span>
                 </h1>
                 <p class="text-valoSlate text-xs md:text-sm">Voici l'état actuel de vos finances.</p>
             </div>
-            <span class="text-xs bg-slate-800 border border-slate-700/50 px-3 py-1.5 rounded-full text-slate-300 font-medium font-mono">
-                Juin 2026
+            <span id="current-period" class="text-xs bg-slate-800 border border-slate-700/50 px-3 py-1.5 rounded-full text-slate-300 font-medium font-mono">
+                ...
             </span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-gradient-to-br from-valoCard to-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl flex flex-col justify-between min-h-[140px]">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="bg-gradient-to-br from-valoCard to-slate-900 border border-slate-800 p-5 md:p-6 rounded-2xl shadow-xl flex flex-col justify-between min-h-[120px] md:min-h-[140px]">
                 <div class="flex items-center justify-between text-valoSlate">
                     <span class="text-xs font-semibold uppercase tracking-wider">Solde Total</span>
                     <i class="bi bi-wallet2 text-lg text-valoMint"></i>
                 </div>
                 <div>
-                    <h2 class="text-3xl font-mono font-bold tracking-tight mb-1" id="total-balance">0,00 $</h2>
+                    <h2 class="text-2xl md:text-3xl font-mono font-bold tracking-tight mb-1" id="total-balance">0,00 $</h2>
                     <p class="text-[11px] text-valoMint flex items-center gap-1">
-                        <i class="bi bi-arrow-up-short text-base"></i> Restant optimisé
+                        <i class="bi bi-arrow-up-short text-base"></i> Restant disponible
                     </p>
                 </div>
             </div>
 
-            <div class="bg-valoCard border border-slate-800/60 p-6 rounded-2xl flex flex-col justify-between min-h-[140px]">
+            <div class="bg-valoCard border border-slate-800/60 p-5 md:p-6 rounded-2xl flex flex-col justify-between min-h-[120px] md:min-h-[140px]">
                 <div class="flex items-center justify-between text-valoSlate">
-                    <span class="text-xs font-semibold uppercase tracking-wider">Entrées (Mois)</span>
+                    <span class="text-xs font-semibold uppercase tracking-wider">Entrées</span>
                     <i class="bi bi-arrow-down-left-circle-fill text-lg text-valoMint"></i>
                 </div>
                 <div>
@@ -104,9 +128,9 @@
                 </div>
             </div>
 
-            <div class="bg-valoCard border border-slate-800/60 p-6 rounded-2xl flex flex-col justify-between min-h-[140px]">
+            <div class="bg-valoCard border border-slate-800/60 p-5 md:p-6 rounded-2xl sm:col-span-2 lg:col-span-1 flex flex-col justify-between min-h-[120px] md:min-h-[140px]">
                 <div class="flex items-center justify-between text-valoSlate">
-                    <span class="text-xs font-semibold uppercase tracking-wider">Sorties (Mois)</span>
+                    <span class="text-xs font-semibold uppercase tracking-wider">Sorties</span>
                     <i class="bi bi-arrow-up-right-circle-fill text-lg text-valoCrimson"></i>
                 </div>
                 <div>
@@ -117,14 +141,15 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
             <div class="lg:col-span-1 space-y-4">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-valoSlate">Opérations Rapides</h3>
-                <div class="bg-valoCard border border-slate-800/60 rounded-2xl p-5 space-y-3">
-                    <button class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-valoMint/5">
-                        <i class="bi bi-plus-circle-fill"></i> Ajouter un Revenu
+                <div class="bg-valoCard border border-slate-800/60 rounded-2xl p-4 md:p-5 grid grid-cols-2 lg:grid-cols-1 gap-3">
+                    <button class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 text-xs md:text-sm shadow-lg shadow-valoMint/5">
+                        <i class="bi bi-plus-circle-fill"></i> Revenu
                     </button>
-                    <button class="w-full bg-slate-800 hover:bg-slate-700 text-white border border-slate-700/60 font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 text-sm">
-                        <i class="bi bi-dash-circle-fill text-valoCrimson"></i> Enregistrer une Dépense
+                    <button class="w-full bg-slate-800 hover:bg-slate-700 text-white border border-slate-700/60 font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 text-xs md:text-sm">
+                        <i class="bi bi-dash-circle-fill text-valoCrimson"></i> Dépense
                     </button>
                 </div>
             </div>
@@ -152,9 +177,13 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             const welcomeName = document.getElementById('welcome-name');
-            const profileName = document.getElementById('profile-name');
-            const userAvatar = document.getElementById('user-avatar');
-            const btnLogout = document.getElementById('btn-logout');
+            const periodBadge = document.getElementById('current-period');
+            const logOutButtons = document.querySelectorAll('.btn-logout');
+
+            // Affichage dynamique de la période (Mois Année)
+            const options = { month: 'long', year: 'numeric' };
+            const currentPeriodText = new Date().toLocaleDateString('fr-FR', options);
+            periodBadge.textContent = currentPeriodText.charAt(0).toUpperCase() + currentPeriodText.slice(1);
 
             onAuthStateChanged(auth, (user) => {
                 if (user) {
@@ -163,20 +192,25 @@
                     const cleanName = username.charAt(0).toUpperCase() + username.slice(1);
 
                     welcomeName.textContent = cleanName;
-                    profileName.textContent = cleanName;
-                    userAvatar.textContent = cleanName.charAt(0);
+                    
+                    // Remplissage des pseudos et initiales sur les sélecteurs génériques
+                    document.querySelectorAll('.profile-name').forEach(el => el.textContent = cleanName);
+                    document.querySelectorAll('.md-avatar, .mobile-avatar').forEach(el => el.textContent = cleanName.charAt(0));
                 } else {
                     window.location.href = "./index.html";
                 }
             });
 
-            btnLogout.addEventListener('click', async () => {
-                try {
-                    await signOut(auth);
-                    window.location.href = "./index.html";
-                } catch (error) {
-                    console.error(error);
-                }
+            // Écoute de déconnexion sur PC et Mobile simultanément
+            logOutButtons.forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    try {
+                        await signOut(auth);
+                        window.location.href = "./index.html";
+                    } catch (error) {
+                        console.error(error);
+                    }
+                });
             });
         });
     </script>
