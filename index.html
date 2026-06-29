@@ -25,6 +25,7 @@
         }
     </script>
     <style>
+        /* Force l'intégration propre plein écran sur mobile sans décalage */
         @media (max-width: 767px) {
             .login-container {
                 height: 100vh;
@@ -33,6 +34,14 @@
                 border: none !important;
             }
         }
+
+        /* Animation d'onde d'impulsion pour l'état installé */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.2; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+        .animate-pulse-ring { animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     </style>
 </head>
 <body class="bg-valoMidnight text-white h-full font-sans antialiased overflow-x-hidden md:overflow-hidden relative flex items-center justify-center">
@@ -61,34 +70,46 @@
                     </p>
                 </div>
 
-                <div class="bg-valoCard border border-slate-800 rounded-2xl p-5 space-y-4 max-w-sm shadow-xl">
-                    <div class="flex items-center gap-4">
-                        <div class="w-11 h-11 bg-valoMint/10 rounded-xl flex items-center justify-center text-valoMint">
-                            <i class="bi bi-windows text-xl"></i>
+                <div class="bg-valoCard border border-slate-800 rounded-2xl p-6 space-y-4 max-w-sm shadow-xl relative overflow-hidden">
+                    
+                    <div id="wrapper-install-pc" class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-11 h-11 bg-valoMint/10 rounded-xl flex items-center justify-center text-valoMint">
+                                <i class="bi bi-windows text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs text-white uppercase tracking-wider">Application Windows</h4>
+                                <p class="text-[11px] text-valoSlate font-medium">Installez VALO directement sur votre PC.</p>
+                            </div>
+                        </div>
+                        <button id="pc-install-btn" class="w-full bg-slate-800 hover:bg-slate-700 text-valoMint border border-valoMint/20 py-3 rounded-xl transition flex items-center justify-center gap-2 font-bold text-xs tracking-wide">
+                            <i class="bi bi-download"></i> INSTALLER SUR WINDOWS
+                        </button>
+                    </div>
+
+                    <div id="wrapper-active-pc" class="hidden flex items-center gap-4 py-2">
+                        <div class="relative flex items-center justify-center w-12 h-12 shrink-0">
+                            <div class="absolute inset-0 bg-valoMint/20 rounded-xl animate-pulse-ring"></div>
+                            <div class="relative w-10 h-10 bg-valoMint/10 border border-valoMint/40 text-valoMint rounded-xl flex items-center justify-center">
+                                <i class="bi bi-shield-check text-xl"></i>
+                            </div>
                         </div>
                         <div>
-                            <h4 class="font-bold text-xs text-white uppercase tracking-wider">Application Windows</h4>
-                            <p class="text-[11px] text-valoSlate font-medium">Installez VALO directement sur votre PC.</p>
+                            <h4 class="font-bold text-xs text-white uppercase tracking-wider">VALO est actif</h4>
+                            <p class="text-[11px] text-valoSlate font-medium">Environnement de bureau natif et sécurisé.</p>
                         </div>
                     </div>
-                    <button id="pc-install-btn" class="w-full bg-slate-800 hover:bg-slate-700 text-valoMint border border-valoMint/20 py-3 rounded-xl transition flex items-center justify-center gap-2 font-bold text-xs tracking-wide">
-                        <i class="bi bi-download"></i> INSTALLER SUR WINDOWS
-                    </button>
+
                 </div>
             </div>
 
             <div class="flex justify-center md:justify-end h-full md:h-auto items-center">
-                <div class="login-container w-full max-w-[420px] bg-valoCard border border-slate-800/80 rounded-[2rem] p-8 md:p-10 shadow-2xl flex flex-col justify-center ring-1 ring-white/5">
+                <div class="login-container w-full max-w-[400px] bg-valoCard border border-slate-800/80 rounded-[2rem] p-8 md:p-10 shadow-2xl flex flex-col justify-center">
                     
-                    <div class="mb-8 text-center hidden md:block">
-                        <img src="valo.png" alt="VALO" class="h-14 w-auto object-contain mx-auto mb-4">
-                        <h3 class="text-xl font-black tracking-tight">Connexion</h3>
-                        <p class="text-valoSlate text-xs">Identifiez-vous pour accéder à votre espace</p>
-                    </div>
-
-                    <div class="mb-8 md:hidden pt-8">
-                        <h3 class="text-3xl font-black tracking-tight mb-1">Connexion</h3>
-                        <p class="text-valoSlate text-xs">Accédez à votre espace VALO</p>
+                    <div class="text-center mb-8">
+                        <img src="valo.png" alt="VALO" class="h-12 w-auto object-contain mx-auto mb-4 md:block hidden">
+                        <h3 class="text-2xl font-black tracking-tight">Connexion</h3>
+                        <p class="text-valoSlate text-xs mt-1">Accédez à votre espace sécurisé</p>
                     </div>
 
                     <div id="error-message" class="hidden mb-6 p-4 bg-valoCrimson/10 border border-valoCrimson/20 rounded-xl text-valoCrimson text-xs flex items-center gap-3">
@@ -97,31 +118,31 @@
                     </div>
 
                     <form id="login-form" class="space-y-5">
-                        <div class="space-y-2">
+                        <div class="space-y-1.5">
                             <label class="text-[10px] font-bold uppercase tracking-[0.15em] text-valoSlate ml-1">Utilisateur</label>
                             <div class="relative flex items-center">
-                                <i class="bi bi-person absolute left-4 text-valoSlate text-lg pointer-events-none"></i>
-                                <input type="text" id="username" required autocomplete="username" class="w-full bg-slate-900/60 border border-slate-800 focus:border-valoMint rounded-xl py-3.5 pl-12 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-valoMint transition-all" placeholder="votre_pseudo">
+                                <i class="bi bi-person absolute left-4 text-valoSlate text-base pointer-events-none"></i>
+                                <input type="text" id="username" required autocomplete="username" class="w-full bg-slate-900/60 border border-slate-800/80 focus:border-valoMint rounded-xl py-3.5 pl-12 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-valoMint transition-all">
                             </div>
                         </div>
 
-                        <div class="space-y-2">
+                        <div class="space-y-1.5">
                             <label class="text-[10px] font-bold uppercase tracking-[0.15em] text-valoSlate ml-1">Code Secret</label>
                             <div class="relative flex items-center">
-                                <i class="bi bi-key absolute left-4 text-valoSlate text-lg pointer-events-none"></i>
-                                <input type="password" id="password" required autocomplete="current-password" class="w-full bg-slate-900/60 border border-slate-800 focus:border-valoMint rounded-xl py-3.5 pl-12 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-valoMint transition-all" placeholder="••••••••">
+                                <i class="bi bi-key absolute left-4 text-valoSlate text-base pointer-events-none"></i>
+                                <input type="password" id="password" required autocomplete="current-password" class="w-full bg-slate-900/60 border border-slate-800/80 focus:border-valoMint rounded-xl py-3.5 pl-12 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-valoMint transition-all">
                             </div>
                         </div>
 
                         <button type="submit" id="btn-submit" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-4 rounded-xl transition shadow-lg shadow-valoMint/10 flex items-center justify-center gap-2 mt-4 text-sm tracking-wide uppercase">
                             <span id="btn-text">Se Connecter</span>
-                            <i class="bi bi-shield-lock-fill text-base"></i>
+                            <i class="bi bi-shield-lock-fill text-sm"></i>
                         </button>
                     </form>
 
-                    <div class="mt-8 text-center">
-                        <button id="quick-connect-btn" class="text-xs text-valoSlate hover:text-valoMint transition group">
-                            Session active : <span class="text-white group-hover:text-valoMint font-semibold id-firstname">...</span>
+                    <div class="mt-8 pt-6 border-t border-slate-800/60 text-center">
+                        <button id="quick-connect-btn" class="text-xs text-valoSlate hover:text-valoMint transition flex items-center justify-center gap-2 mx-auto">
+                            <i class="bi bi-arrow-clockwise text-sm"></i> Reprendre session : <span class="text-white font-semibold id-firstname">...</span>
                         </button>
                     </div>
 
@@ -142,8 +163,19 @@
                 document.getElementById('username').value = savedUser.toLowerCase();
                 document.getElementById('password').focus();
             });
+
+            // Détection si l'application s'exécute déjà en mode standalone (Installée PC / Phone)
+            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                const wrapperInstall = document.getElementById('wrapper-install-pc');
+                const wrapperActive = document.getElementById('wrapper-active-pc');
+                if(wrapperInstall && wrapperActive) {
+                    wrapperInstall.classList.add('hidden');
+                    wrapperActive.classList.remove('hidden');
+                }
+            }
         });
 
+        // Formulaire d'authentification
         const loginForm = document.getElementById('login-form');
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -170,24 +202,23 @@
             }
         });
 
-        // Logique d'installation Windows (PWA Desktop prompt)
+        // Déclencheur PWA
         let deferredPrompt;
         const pcBtn = document.getElementById('pc-install-btn');
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            if (pcBtn) {
-                pcBtn.addEventListener('click', () => {
-                    if (deferredPrompt) {
-                        deferredPrompt.prompt();
-                        deferredPrompt.userChoice.then(() => {
-                            deferredPrompt = null;
-                        });
-                    }
-                });
-            }
         });
+
+        if (pcBtn) {
+            pcBtn.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+                }
+            });
+        }
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
