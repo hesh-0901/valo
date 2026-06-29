@@ -31,6 +31,7 @@
         .animate-float {
             animation: float 4s ease-in-out infinite;
         }
+        
         /* Si l'application est lancée en mode installé (Standalone) */
         @media (display-mode: standalone) {
             /* Cache l'interface d'installation mobile */
@@ -45,8 +46,7 @@
                 width: 100% !important;
             }
             
-            /* Optionnel : Masque la colonne gauche (visuelle) sur mobile installé 
-               pour ne garder QUE le formulaire de connexion au centre */
+            /* Garde uniquement le formulaire de connexion au centre sur mobile installé */
             @media (max-width: 767px) {
                 .max-w-6xl.w-full.grid {
                     grid-template-columns: 1fr !important;
@@ -67,7 +67,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
-    
 </head>
 <body class="bg-valoMidnight text-white h-full font-sans antialiased selection:bg-valoMint selection:text-valoMidnight">
 
@@ -82,7 +81,7 @@
             </p>
         </div>
         <div class="mb-6 w-full max-w-sm mx-auto space-y-4">
-            <button class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-4 px-6 rounded-xl transition duration-300 shadow-lg shadow-valoMint/20 flex items-center justify-center gap-3">
+            <button id="pwa-install-btn" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-bold py-4 px-6 rounded-xl transition duration-300 shadow-lg shadow-valoMint/20 flex items-center justify-center gap-3">
                 <i class="bi bi-box-arrow-down text-xl"></i>
                 Télécharger l'application VALO
             </button>
@@ -188,17 +187,6 @@
     </div>
 
     <script type="module">
-
-        document.addEventListener("DOMContentLoaded", () => {
-        // Vérifie si l'application s'exécute en mode PWA installé
-        const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-    
-        if (isPWA) {
-            console.log("VALO s'exécute en mode Application Installée.");
-            // Vous pouvez ajouter ici une logique spécifique si nécessaire,
-            // mais le CSS ci-dessus se charge déjà de basculer l'affichage.
-        }
-    });
         import { loginWithUsername } from './js/config.js';
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -208,21 +196,27 @@
             const btnText = document.getElementById('btn-text');
             const btnSubmit = document.getElementById('btn-submit');
             
-            // Gestion de l'affichage du nom d'utilisateur précédent
+            // 1. Détection du mode d'affichage autonome (Standalone)
+            const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+            if (isPWA) {
+                console.log("VALO s'exécute en mode Application Installée.");
+            }
+
+            // 2. Gestion de l'affichage du nom d'utilisateur précédent
             let savedUsername = localStorage.getItem('valo_user_name');
             if (!savedUsername) {
-                savedUsername = "Henoch"; // Valeur initiale par défaut
+                savedUsername = "Henoch"; 
                 localStorage.setItem('valo_user_name', savedUsername);
             }
             document.getElementById('user-firstname').textContent = savedUsername;
 
-            // Remplissage automatique si clic sur "continuer en tant que"
+            // 3. Remplissage automatique
             document.getElementById('quick-connect-btn').addEventListener('click', () => {
                 document.getElementById('username').value = savedUsername.toLowerCase();
                 document.getElementById('password').focus();
             });
 
-            // Soumission du formulaire à Firebase
+            // 4. Soumission du formulaire à Firebase
             loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 errorZone.classList.add('hidden');
@@ -230,23 +224,14 @@
                 const usernameVal = document.getElementById('username').value;
                 const passwordVal = document.getElementById('password').value;
 
-                // Mode visuel chargement
                 btnSubmit.disabled = true;
                 btnText.textContent = "Vérification en cours...";
 
                 try {
-                    // Appel de la méthode exportée depuis js/config.js
                     const user = await loginWithUsername(usernameVal, passwordVal);
-                    
-                    // Sauvegarde du dernier utilisateur connecté avec succès
                     localStorage.setItem('valo_user_name', usernameVal);
-                    
-                    // Connexion réussie : Redirection vers le tableau de bord
-                    console.log("Bienvenue", user);
                     window.location.href = "./dashboard.html"; 
-
                 } catch (error) {
-                    // Gestion et affichage des erreurs propres
                     errorZone.classList.remove('hidden');
                     if (error.message.includes("auth/invalid-credential") || error.message.includes("user-not-found")) {
                         errorText.textContent = "Nom d'utilisateur ou mot de passe incorrect.";
@@ -257,60 +242,47 @@
                     }
                     console.error(error);
                 } finally {
-                    // Restauration du bouton
                     btnSubmit.disabled = false;
                     btnText.textContent = "Se Connecter";
                 }
             });
         });
-    </script>
 
-    <script type="module">
-    // Enregistrement du Service Worker
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('SW installé !'))
-                .catch(err => console.log('Erreur SW', err));
-        });
-    }
-
-    // Gestion de l'installation PWA via le bouton vert
-    let deferredPrompt;
-    
-    // On cible le bouton de téléchargement (vue mobile)
-    const downloadBtn = document.querySelector('.block\\:hidden button, button:contains("Télécharger")') || document.getElementsByTagName('button')[0];
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Empêche le navigateur d'afficher sa propre mini-bannière du bas
-        e.preventDefault();
-        // On stocke l'événement
-        deferredPrompt = e;
-        
-        console.log("VALO est prête à être installée !");
-
-        // On écoute le clic sur votre bouton vert
-        if (downloadBtn) {
-            downloadBtn.addEventListener('click', () => {
-                // Déclenche l'installation native
-                deferredPrompt.prompt();
-                
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('L\'utilisateur a installé VALO');
-                    }
-                    deferredPrompt = null;
-                });
+        // 5. Enregistrement du Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW installé !'))
+                    .catch(err => console.log('Erreur SW', err));
             });
         }
-    });
 
-    // Optionnel : masquer le bouton si l'appli est déjà installée
-    window.addEventListener('appinstalled', () => {
-        console.log('VALO a été installée avec succès !');
-        deferredPrompt = null;
-    });
-</script>
-    
+        // 6. Gestion du déclencheur d'installation avec ID propre
+        let deferredPrompt;
+        const downloadBtn = document.getElementById('pwa-install-btn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log("VALO est prête à être installée !");
+
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', () => {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('L\'utilisateur a installé VALO');
+                        }
+                        deferredPrompt = null;
+                    });
+                });
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('VALO a été installée avec succès !');
+            deferredPrompt = null;
+        });
+    </script>
 </body>
 </html>
