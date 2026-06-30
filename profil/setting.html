@@ -28,7 +28,7 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;700;800&display=swap');
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             -webkit-tap-highlight-color: transparent; 
@@ -36,59 +36,25 @@
         
         .profile-mesh { background: radial-gradient(circle at 100% 0%, rgba(16, 185, 129, 0.08), transparent 60%); }
         
-        /* Personnalisation fine du scroll global */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #334155; }
-
-        /* Gestion de l'affichage mobile vs desktop sans clignotement */
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        @media (min-width: 768px) {
-            .tab-content { display: block !important; }
-        }
     </style>
 </head>
-<body class="bg-valoMidnight text-slate-200 min-h-full flex flex-col md:flex-row select-none antialiased">
+<body class="bg-valoMidnight text-slate-200 min-h-full p-4 md:p-12 select-none antialiased flex justify-center items-start">
 
-    <aside class="hidden md:flex flex-col w-64 bg-valoCard border-r border-slate-800/60 p-6 shrink-0 justify-between h-screen sticky top-0">
-        <div class="space-y-8">
-            <div class="flex items-center gap-3 px-2">
-                <img src="../icons/icon-192x192.png" class="w-7 h-7 rounded-lg" onerror="this.src='../valo.png'">
-                <span class="text-xs font-black uppercase tracking-[0.3em] text-white">VALO<span class="text-valoMint">.</span>CORE</span>
-            </div>
-            
-            <nav class="space-y-1">
-                <a href="../dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-slate-400 hover:text-white hover:bg-slate-900/50 transition-all">
-                    <i class="bi bi-grid-1x2-fill"></i> Tableau de bord
-                </a>
-                <div class="h-[1px] bg-slate-800/50 my-2"></div>
-                <div class="text-[8px] font-black uppercase tracking-widest text-valoSlate px-4 mb-2">Index Paramètres</div>
-                <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-valoMint bg-valoMint/5 border border-valoMint/10 text-left">
-                    <i class="bi bi-sliders"></i> Configuration générale
-                </button>
-            </nav>
-        </div>
-
-        <button id="btn-sidebar-logout" class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-red-400/60 hover:text-red-400 hover:bg-red-500/5 transition-all text-left w-full">
-            <i class="bi bi-power"></i> Quitter la session
-        </button>
-    </aside>
-
-    <main class="flex-grow p-4 md:p-8 lg:p-12 pb-24 md:pb-12 max-w-6xl mx-auto w-full overflow-x-hidden">
+    <div class="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
         
-        <div class="flex items-center justify-between py-2 md:hidden mb-4">
-            <button onclick="window.location.href='../dashboard.html'" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-900 border border-slate-800/80 text-valoSlate hover:text-white transition-all">
-                <i class="bi bi-arrow-left text-sm"></i>
-            </button>
-            <h1 class="text-[9px] font-black uppercase tracking-[0.35em] text-valoSlate font-mono">Configuration</h1>
-            <div class="w-9"></div>
-        </div>
+        <div class="md:col-span-4 space-y-4 md:sticky md:top-12">
+            <div class="flex items-center justify-between py-1">
+                <button onclick="window.location.href='../dashboard.html'" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-900 border border-slate-800/80 text-valoSlate hover:text-white transition-all active:scale-95">
+                    <i class="bi bi-arrow-left text-sm"></i>
+                </button>
+                <h1 class="text-[9px] font-black uppercase tracking-[0.35em] text-valoSlate font-mono">Configuration</h1>
+                <div class="w-9"></div>
+            </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            
-            <section class="lg:col-span-4 bg-valoCard border border-slate-800/60 rounded-3xl p-5 relative overflow-hidden profile-mesh shadow-2xl">
+            <div class="bg-valoCard border border-slate-800/60 rounded-3xl p-6 relative overflow-hidden profile-mesh shadow-2xl">
                 <div class="flex flex-col items-center text-center space-y-3 relative z-10">
                     <div class="relative">
                         <img id="set-avatar" src="../valo.png" class="w-20 h-20 rounded-2xl border border-slate-700/40 shadow-inner object-cover" alt="Avatar">
@@ -114,149 +80,109 @@
                         <span class="text-[10px] font-bold text-valoMint uppercase flex items-center justify-center gap-1"><i class="bi bi-shield-check"></i> Actif</span>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <button id="btn-logout-settings" class="w-full py-3.5 bg-slate-950/40 hover:bg-red-500/5 border border-slate-900 rounded-2xl text-[9px] font-black uppercase tracking-[0.25em] text-red-500/40 hover:text-red-500 transition-all active:scale-95">Clôturer la session active</button>
+        </div>
+
+        <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <div class="bg-valoCard border border-slate-800/50 rounded-2xl p-5 shadow-lg space-y-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-800/50 pb-3">
+                    <i class="bi bi-currency-exchange text-valoMint text-sm"></i>
+                    <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-300">Taux de conversion</h4>
+                </div>
+                <p class="text-[10px] text-slate-500 leading-normal">Ajustez le taux local CDF appliqué à vos portefeuilles.</p>
+                <div class="flex gap-2">
+                    <div class="flex-grow space-y-1">
+                        <label class="text-[8px] font-black text-valoSlate uppercase ml-1">1 USD ($) =</label>
+                        <input type="number" id="set-rate" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2.5 px-3 text-xs font-mono text-white focus:outline-none focus:border-valoMint" placeholder="Ex: 2850">
+                    </div>
+                    <div class="space-y-1 w-1/3">
+                        <label class="text-[8px] font-black text-valoSlate uppercase ml-1">Périodicité</label>
+                        <select id="set-period" class="w-full h-[41px] bg-valoInput border border-slate-800 rounded-xl px-2 text-[10px] font-medium text-white focus:outline-none">
+                            <option value="daily">Aujourd'hui</option>
+                            <option value="weekly">Semaine</option>
+                            <option value="fixed">Fixé</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-valoCard border border-slate-800/50 rounded-2xl p-5 shadow-lg space-y-4">
+                <div class="flex items-center gap-2.5 border-b border-slate-800/50 pb-3">
+                    <i class="bi bi-people-fill text-valoMint text-sm"></i>
+                    <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-300">Contacts récurrents</h4>
+                </div>
+                <div id="set-partners-list" class="space-y-1.5 max-h-36 overflow-y-auto pr-1"></div>
+                <div class="flex gap-2 pt-1">
+                    <input type="text" id="add-partner-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Nom du partenaire">
+                    <button id="btn-add-partner" class="w-9 h-9 bg-valoMint hover:bg-valoMintHover text-valoMidnight rounded-xl flex items-center justify-center shrink-0 active:scale-95 transition-transform"><i class="bi bi-plus-lg text-sm"></i></button>
+                </div>
+            </div>
+
+            <div class="bg-valoCard border border-slate-800/50 rounded-2xl p-5 shadow-lg space-y-5 sm:col-span-2">
+                <div class="flex items-center gap-2.5 border-b border-slate-800/50 pb-3">
+                    <i class="bi bi-tags-fill text-valoMint text-sm"></i>
+                    <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-300">Segmentation analytique</h4>
+                </div>
                 
-                <div id="tab-finances" class="tab-content active bg-valoCard border border-slate-800/50 rounded-2xl p-5 shadow-lg space-y-4">
-                    <div class="flex items-center gap-2.5 border-b border-slate-800/50 pb-3">
-                        <i class="bi bi-currency-exchange text-valoMint text-sm"></i>
-                        <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-300">Taux de conversion</h4>
-                    </div>
-                    <p class="text-[10px] text-slate-500 leading-normal">Ajustez le taux local CDF appliqué à vos portefeuilles.</p>
-                    <div class="flex gap-2">
-                        <div class="flex-grow space-y-1">
-                            <label class="text-[8px] font-black text-valoSlate uppercase ml-1">1 USD ($) =</label>
-                            <input type="number" id="set-rate" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2.5 px-3 text-xs font-mono text-white focus:outline-none focus:border-valoMint" placeholder="Ex: 2850">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center"><span class="text-[8px] font-black uppercase text-valoSlate tracking-widest">Sources d'entrées</span><span id="in-count" class="text-[9px] font-mono text-valoMint font-bold">0/10</span></div>
+                        <div id="in-tags" class="grid grid-cols-2 gap-1.5"></div>
+                        <div class="flex gap-1.5 pt-1">
+                            <input type="text" id="add-in-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-1.5 px-3 text-[11px] text-white focus:outline-none focus:border-valoMint" placeholder="Ajouter entrée...">
+                            <button id="btn-add-in" class="px-3 h-8 bg-slate-800 text-valoMint rounded-xl border border-slate-700 text-xs font-bold hover:bg-slate-700 active:scale-95">+</button>
                         </div>
-                        <div class="space-y-1 w-1/3">
-                            <label class="text-[8px] font-black text-valoSlate uppercase ml-1">Périodicité</label>
-                            <select id="set-period" class="w-full h-[41px] bg-valoInput border border-slate-800 rounded-xl px-2 text-[10px] font-medium text-white focus:outline-none">
-                                <option value="daily">Aujourd'hui</option>
-                                <option value="weekly">Semaine</option>
-                                <option value="fixed">Fixé</option>
-                            </select>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center"><span class="text-[8px] font-black uppercase text-valoSlate tracking-widest">Raisons de sorties</span><span id="out-count" class="text-[9px] font-mono text-red-400 font-bold">0/10</span></div>
+                        <div id="out-tags" class="grid grid-cols-2 gap-1.5"></div>
+                        <div class="flex gap-1.5 pt-1">
+                            <input type="text" id="add-out-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-1.5 px-3 text-[11px] text-white focus:outline-none focus:border-valoMint" placeholder="Ajouter motif...">
+                            <button id="btn-add-out" class="px-3 h-8 bg-slate-800 text-red-400 rounded-xl border border-slate-700 text-xs font-bold hover:bg-slate-700 active:scale-95">+</button>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div id="tab-partners" class="tab-content bg-valoCard border border-slate-800/50 rounded-2xl p-5 shadow-lg space-y-4">
-                    <div class="flex items-center gap-2.5 border-b border-slate-800/50 pb-3">
-                        <i class="bi bi-people-fill text-valoMint text-sm"></i>
-                        <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-300">Contacts récurrents</h4>
-                    </div>
-                    <div id="set-partners-list" class="space-y-1.5 max-h-36 overflow-y-auto pr-1"></div>
-                    <div class="flex gap-2 pt-1">
-                        <input type="text" id="add-partner-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Nom du partenaire">
-                        <button id="btn-add-partner" class="w-9 h-9 bg-valoMint hover:bg-valoMintHover text-valoMidnight rounded-xl flex items-center justify-center shrink-0 active:scale-95 transition-transform"><i class="bi bi-plus-lg text-sm"></i></button>
-                    </div>
+            <div class="bg-valoCard border border-slate-800/50 rounded-2xl p-5 shadow-lg space-y-4 sm:col-span-2">
+                <div class="flex items-center gap-2.5 border-b border-slate-800/50 pb-3">
+                    <i class="bi bi-shield-lock-fill text-valoMint text-sm"></i>
+                    <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-300">Intégrité & Accès Index</h4>
                 </div>
-
-                <div id="tab-rubriques" class="tab-content bg-valoCard border border-slate-800/50 rounded-2xl p-5 shadow-lg space-y-5 md:col-span-2">
-                    <div class="flex items-center gap-2.5 border-b border-slate-800/50 pb-3">
-                        <i class="bi bi-tags-fill text-valoMint text-sm"></i>
-                        <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-300">Segmentation analytique</h4>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-3">
+                        <div class="space-y-1">
+                            <label id="label-q1" class="text-[8px] font-black text-valoSlate uppercase tracking-widest block mb-0.5">Défi Récupération 1</label>
+                            <input type="text" id="ans-1" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Réponse 1">
+                        </div>
+                        <div class="space-y-1">
+                            <label id="label-q2" class="text-[8px] font-black text-valoSlate uppercase tracking-widest block mb-0.5">Défi Récupération 2</label>
+                            <input type="text" id="ans-2" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Réponse 2">
+                        </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div class="space-y-2">
-                            <div class="flex justify-between items-center"><span class="text-[8px] font-black uppercase text-valoSlate tracking-widest">Sources d'entrées</span><span id="in-count" class="text-[9px] font-mono text-valoMint font-bold">0/10</span></div>
-                            <div id="in-tags" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5"></div>
-                            <div class="flex gap-1.5 pt-1">
-                                <input type="text" id="add-in-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-1.5 px-3 text-[11px] text-white focus:outline-none focus:border-valoMint" placeholder="Ajouter entrée...">
-                                <button id="btn-add-in" class="px-3 h-8 bg-slate-800 text-valoMint rounded-xl border border-slate-700 text-xs font-bold hover:bg-slate-700 active:scale-95">+</button>
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <div class="flex justify-between items-center"><span class="text-[8px] font-black uppercase text-valoSlate tracking-widest">Raisons de sorties</span><span id="out-count" class="text-[9px] font-mono text-red-400 font-bold">0/10</span></div>
-                            <div id="out-tags" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5"></div>
-                            <div class="flex gap-1.5 pt-1">
-                                <input type="text" id="add-out-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-1.5 px-3 text-[11px] text-white focus:outline-none focus:border-valoMint" placeholder="Ajouter motif...">
-                                <button id="btn-add-out" class="px-3 h-8 bg-slate-800 text-red-400 rounded-xl border border-slate-700 text-xs font-bold hover:bg-slate-700 active:scale-95">+</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab-securite" class="tab-content bg-valoCard border border-slate-800/50 rounded-2xl p-5 shadow-lg space-y-4 md:col-span-2">
-                    <div class="flex items-center gap-2.5 border-b border-slate-800/50 pb-3">
-                        <i class="bi bi-shield-lock-fill text-valoMint text-sm"></i>
-                        <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-300">Intégrité & Accès Index</h4>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-3">
-                            <div class="space-y-1">
-                                <label id="label-q1" class="text-[8px] font-black text-valoSlate uppercase tracking-widest block mb-0.5">Défi Récupération 1</label>
-                                <input type="text" id="ans-1" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Réponse 1">
-                            </div>
-                            <div class="space-y-1">
-                                <label id="label-q2" class="text-[8px] font-black text-valoSlate uppercase tracking-widest block mb-0.5">Défi Récupération 2</label>
-                                <input type="text" id="ans-2" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Réponse 2">
-                            </div>
+                    <div class="flex flex-col justify-between space-y-3">
+                        <div class="p-3 bg-slate-950/60 border border-slate-800/60 rounded-xl text-[9px] text-slate-400 font-medium leading-relaxed uppercase">
+                            Répondez aux deux défis définis lors de la création pour pouvoir modifier votre clé.
                         </div>
                         
-                        <div class="flex flex-col justify-between space-y-3">
-                            <div class="p-3 bg-slate-950/60 border border-slate-800/60 rounded-xl text-[9px] text-slate-400 font-medium leading-relaxed uppercase">
-                                Répondez aux deux défis définis lors de la création pour pouvoir modifier votre clé.
-                            </div>
-                            
-                            <div id="new-key-zone" class="hidden space-y-1">
-                                <label class="text-[8px] font-black text-valoMint uppercase tracking-widest block">Nouvelle Clé Secrète (Min. 6 car.)</label>
-                                <input type="password" id="new-key" class="w-full bg-slate-950 border border-valoMint/30 rounded-xl py-2 px-3 text-xs font-mono text-white focus:outline-none" placeholder="••••••••">
-                            </div>
-                            
-                            <button id="btn-verify-security" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-2.5 rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-[0.98]">Vérifier les accès</button>
+                        <div id="new-key-zone" class="hidden space-y-1">
+                            <label class="text-[8px] font-black text-valoMint uppercase tracking-widest block">Nouvelle Clé Secrète (Min. 6 car.)</label>
+                            <input type="password" id="new-key" class="w-full bg-slate-950 border border-valoMint/30 rounded-xl py-2 px-3 text-xs font-mono text-white focus:outline-none" placeholder="••••••••">
                         </div>
+                        
+                        <button id="btn-verify-security" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-2.5 rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-[0.98]">Vérifier les accès</button>
                     </div>
                 </div>
-
             </div>
-        </div>
-    </main>
 
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-valoCard/95 backdrop-blur-md border-t border-slate-800/80 px-2 py-1.5 flex justify-around items-center z-50 shadow-2xl">
-        <button onclick="switchMobileTab('finances')" id="nav-finances" class="mobile-nav-btn flex flex-col items-center gap-0.5 text-valoMint px-3 py-1">
-            <i class="bi bi-currency-exchange text-base"></i>
-            <span class="text-[8px] font-black uppercase tracking-tight">Taux</span>
-        </button>
-        <button onclick="switchMobileTab('partners')" id="nav-partners" class="mobile-nav-btn flex flex-col items-center gap-0.5 text-slate-500 px-3 py-1">
-            <i class="bi bi-people-fill text-base"></i>
-            <span class="text-[8px] font-black uppercase tracking-tight">Contacts</span>
-        </button>
-        <button onclick="switchMobileTab('rubriques')" id="nav-rubriques" class="mobile-nav-btn flex flex-col items-center gap-0.5 text-slate-500 px-3 py-1">
-            <i class="bi bi-tags-fill text-base"></i>
-            <span class="text-[8px] font-black uppercase tracking-tight">Rubriques</span>
-        </button>
-        <button onclick="switchMobileTab('securite')" id="nav-securite" class="mobile-nav-btn flex flex-col items-center gap-0.5 text-slate-500 px-3 py-1">
-            <i class="bi bi-shield-lock-fill text-base"></i>
-            <span class="text-[8px] font-black uppercase tracking-tight">Sécurité</span>
-        </button>
-        <button id="btn-logout-mobile" class="flex flex-col items-center gap-0.5 text-red-500/50 px-3 py-1">
-            <i class="bi bi-power text-base"></i>
-            <span class="text-[8px] font-black uppercase tracking-tight">Quitter</span>
-        </button>
-    </nav>
+        </div>
+    </div>
 
     <script type="module" src="setting.js"></script>
-    <script>
-        // Logique exclusive Responsive : Commutation des onglets tactiles sur mobile
-        function switchMobileTab(tabId) {
-            if (window.innerWidth >= 768) return; // Désactivé sur PC
-            
-            // Masquer tous les panneaux
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            // Afficher le panneau cliqué
-            document.getElementById(`tab-${tabId}`).classList.add('active');
-            
-            // Ajuster la couleur des boutons du menu bas
-            document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
-                btn.classList.replace('text-valoMint', 'text-slate-500');
-            });
-            document.getElementById(`nav-${tabId}`).classList.replace('text-slate-500', 'text-valoMint');
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    </script>
 </body>
 </html>
