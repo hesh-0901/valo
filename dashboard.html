@@ -25,6 +25,30 @@
         }
     </script>
     <link rel="manifest" href="manifest.json">
+    <style>
+        /* Fige le header uniquement sur mobile */
+        @media (max-width: 767px) {
+            .mobile-header-fixed {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 65px;
+                background-color: rgba(15, 23, 42, 0.9);
+                backdrop-filter: blur(8px);
+                z-index: 40;
+                border-bottom: 1px solid rgba(30, 41, 59, 0.8);
+                padding: 0 16px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            /* Décale le contenu de la page pour ne pas être caché sous le header */
+            main {
+                padding-top: 80px !important;
+            }
+        }
+    </style>
 </head>
 <body class="bg-valoMidnight text-white h-full font-sans antialiased flex flex-col md:flex-row pb-16 md:pb-0">
 
@@ -71,19 +95,27 @@
     </nav>
 
     <main class="flex-grow p-4 md:p-8 lg:p-10 space-y-6 overflow-y-auto max-w-7xl mx-auto w-full">
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-xl md:text-2xl font-black tracking-tight">Bonjour, <span class="text-valoMint" id="welcome-name">...</span></h1>
-                <p class="text-valoSlate text-xs md:text-sm">Voici l'état actuel de vos finances.</p>
+            
+            <div class="mobile-header-fixed flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <a href="./profil/setting.html" class="block relative transition-transform active:scale-95 shrink-0">
+                        <img id="user-avatar-mobile" src="valo.png" alt="Profil" class="w-9 h-9 rounded-full object-cover border border-slate-700">
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-valoMint border-2 border-valoMidnight rounded-full"></span>
+                    </a>
+                    <div>
+                        <h1 class="text-sm md:text-2xl font-black tracking-tight leading-tight">Bonjour, <span class="text-valoMint" id="welcome-name">...</span></h1>
+                        <p class="text-valoSlate text-[10px] md:text-sm leading-none mt-0.5">Voici l'état actuel de vos finances.</p>
+                    </div>
+                </div>
+                
+                <div class="relative flex items-center bg-slate-800 border border-slate-700/50 rounded-full px-2.5 py-1 md:px-3 md:py-1.5 gap-1.5 text-[10px] md:text-xs font-mono">
+                    <i class="bi bi-calendar3 text-valoMint"></i>
+                    <select id="global-range-filter" class="bg-transparent text-slate-300 font-bold focus:outline-none cursor-pointer">
+                        <option value="month" id="opt-current-month" class="bg-slate-900">Ce mois</option>
+                        <option value="year" class="bg-slate-900">Année entière</option>
+                    </select>
+                </div>
             </div>
-            <div class="relative flex items-center bg-slate-800 border border-slate-700/50 rounded-full px-3 py-1.5 gap-2 text-xs font-mono">
-                <i class="bi bi-calendar3 text-valoMint"></i>
-                <select id="global-range-filter" class="bg-transparent text-slate-300 font-bold focus:outline-none cursor-pointer">
-                    <option value="month" id="opt-current-month" class="bg-slate-900">Ce mois</option>
-                    <option value="year" class="bg-slate-900">Année entière</option>
-                </select>
-            </div>
-        </div>
 
         <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
             <div class="col-span-2 md:col-span-1 bg-gradient-to-br from-valoCard to-slate-900 border border-slate-800 p-4 rounded-xl shadow-xl flex flex-col justify-between min-h-[100px] md:min-h-[140px]">
