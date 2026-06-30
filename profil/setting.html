@@ -168,26 +168,32 @@
             </div>
 
             <div class="bg-valoCard border border-slate-800/60 rounded-xl overflow-hidden accordion-item">
-                <button class="w-full p-3.5 flex items-center justify-between text-left font-bold text-xs uppercase tracking-wide text-slate-200 accordion-trigger">
-                    <span class="flex items-center gap-2.5"><i class="bi bi-shield-lock-fill text-valoMint"></i>Sécurité d'accès</span>
-                    <i class="bi bi-chevron-down text-[10px] text-valoSlate transition-transform"></i>
-                </button>
-                <div class="accordion-content bg-slate-900/40 px-4 pb-4 space-y-3 pt-1">
-                    <p class="text-[10px] text-valoSlate leading-normal">Mettez à jour vos questions secrètes pour conditionner la récupération ou la modification de votre Code Secret.</p>
-                    <div class="space-y-2">
-                        <div class="space-y-1">
-                            <label class="text-[9px] text-valoSlate uppercase font-bold">Question Secrète 1</label>
-                            <select class="w-full bg-valoInput border border-slate-800 rounded-lg py-1.5 px-2 text-xs text-white focus:outline-none">
-                                <option>Quel est le nom de votre premier animal de compagnie ?</option>
-                                <option>Dans quelle ville vos parents se sont-ils rencontrés ?</option>
-                                <option>Quel était le modèle de votre première voiture ?</option>
-                            </select>
-                            <input type="text" class="w-full bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-xs text-white mt-1 focus:outline-none focus:border-valoMint" placeholder="Réponse 1">
+                            <button class="w-full p-3.5 flex items-center justify-between text-left font-bold text-xs uppercase tracking-wide text-slate-200 accordion-trigger">
+                                <span class="flex items-center gap-2.5"><i class="bi bi-shield-lock-fill text-valoMint"></i>Sécurité d'accès</span>
+                                <i class="bi bi-chevron-down text-[10px] text-valoSlate transition-transform"></i>
+                            </button>
+                            <div class="accordion-content bg-slate-900/40 px-4 pb-4 space-y-3 pt-1">
+                                <p class="text-[10px] text-valoSlate leading-normal">Vos questions de récupération définies lors de l'enregistrement. Répondez correctement pour modifier votre Code Secret.</p>
+                                
+                                <div class="space-y-2">
+                                    <div class="space-y-1">
+                                        <label class="text-[9px] text-valoSlate uppercase font-bold" id="lbl-question-1">Question Secrète 1</label>
+                                        <input type="text" id="sec-answer-1" required class="w-full bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Votre réponse configurée">
+                                    </div>
+            
+                                    <div class="h-[1px] bg-slate-800/40 my-2"></div>
+            
+                                    <div class="space-y-1">
+                                        <label class="text-[9px] text-valoSlate uppercase font-bold">Nouveau Code Secret</label>
+                                        <input type="password" id="new-access-key" class="w-full bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-xs font-mono text-white focus:outline-none focus:border-valoMint" placeholder="••••••••">
+                                    </div>
+                                </div>
+                                
+                                <button id="btn-save-security" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-2 rounded-lg text-[10px] uppercase tracking-wider mt-2 transition-colors">
+                                    Mettre à jour la clé
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <button id="btn-save-security" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-2 rounded-lg text-[10px] uppercase tracking-wider mt-2">Mettre à jour la sécurité</button>
-                </div>
-            </div>
 
         </div>
     </div>
