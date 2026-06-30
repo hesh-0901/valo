@@ -1,33 +1,65 @@
 <div id="modal-revenu" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-    <div class="w-full max-w-md bg-valoCard border border-slate-800/90 rounded-[2rem] p-6 shadow-2xl relative">
-        <button id="close-modal-revenu" class="absolute right-6 top-6 text-valoSlate hover:text-white"><i class="bi bi-x-lg text-lg"></i></button>
+    <div class="w-full max-w-md bg-valoCard border border-slate-800/90 rounded-[2rem] p-6 shadow-2xl relative overflow-hidden">
         
-        <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-valoMint/10 text-valoMint text-lg"><i class="bi bi-arrow-down-left-circle-fill"></i></div>
+        <div class="absolute top-0 right-0 w-32 h-32 bg-valoMint/5 rounded-full blur-3xl pointer-events-none"></div>
+
+        <button id="close-modal-revenu" type="button" class="absolute right-6 top-6 w-8 h-8 rounded-xl bg-slate-900/60 border border-slate-800/40 flex items-center justify-center text-valoSlate hover:text-white transition-all active:scale-90">
+            <i class="bi bi-x-lg text-xs"></i>
+        </button>
+        
+        <div class="flex items-center gap-3 mb-6 relative z-10">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-valoMint/10 text-valoMint text-lg shadow-inner">
+                <i class="bi bi-arrow-down-left-circle-fill"></i>
+            </div>
             <div>
-                <h2 class="text-lg font-black tracking-tight">Nouvelle Entrée (Revenu)</h2>
-                <p class="text-valoSlate text-[11px]">Créditer votre portefeuille virtuel</p>
+                <h2 class="text-base font-black tracking-tight text-white">Nouvelle Entrée (Revenu)</h2>
+                <p class="text-valoSlate text-[10px] uppercase font-bold tracking-wider font-mono">Créditer l'index virtuel</p>
             </div>
         </div>
 
-        <form id="form-revenu" class="space-y-4">
+        <form id="form-revenu" class="space-y-4 relative z-10">
+            
             <div class="space-y-1.5">
-                <label class="text-[10px] font-bold uppercase tracking-wider text-valoSlate ml-1">Montant (USD)</label>
+                <label class="text-[9px] font-black uppercase tracking-widest text-valoSlate ml-1">Montant global (USD)</label>
                 <div class="relative flex items-center">
-                    <span class="absolute left-4 text-valoSlate font-bold">$</span>
-                    <input type="number" id="rev-amount" step="0.01" required class="w-full bg-slate-900/80 border border-slate-800 focus:border-valoMint rounded-xl py-3 pl-8 pr-4 text-sm font-mono font-bold text-white focus:outline-none" placeholder="0.00">
+                    <span class="absolute left-4 text-valoMint font-black font-mono text-sm">$</span>
+                    <input type="number" id="rev-amount" step="0.01" required class="w-full bg-slate-900/80 border border-slate-800 focus:border-valoMint rounded-xl py-3 pl-8 pr-4 text-sm font-mono font-bold text-white focus:outline-none transition-colors" placeholder="0.00">
                 </div>
             </div>
+
             <div class="space-y-1.5">
-                <label class="text-[10px] font-bold uppercase tracking-wider text-valoSlate ml-1">Source / Description</label>
-                <input type="text" id="rev-desc" required class="w-full bg-slate-900/80 border border-slate-800 focus:border-valoMint rounded-xl py-3 px-4 text-sm text-white focus:outline-none" placeholder="Ex: Vente costume, Rémunération UI...">
+                <label class="text-[9px] font-black uppercase tracking-widest text-valoSlate ml-1">Source / Catégorie de flux</label>
+                <input type="text" id="rev-desc" required class="w-full bg-slate-900/80 border border-slate-800 focus:border-valoMint rounded-xl py-2.5 px-4 text-xs text-white focus:outline-none transition-colors" placeholder="Ex: Vente costume, Rémunération UI...">
+                
+                <div class="pt-1">
+                    <span class="text-[7px] font-black uppercase tracking-widest text-slate-500 block mb-1.5">Rubriques suggérées :</span>
+                    <div id="modal-rev-tags" class="flex flex-wrap gap-1.5 max-h-16 overflow-y-auto pr-1">
+                        <button type="button" onclick="document.getElementById('rev-desc').value=this.innerText" class="text-[9px] font-bold px-2 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 hover:text-valoMint hover:border-valoMint/30 transition-all">Vente</button>
+                        <button type="button" onclick="document.getElementById('rev-desc').value=this.innerText" class="text-[9px] font-bold px-2 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 hover:text-valoMint hover:border-valoMint/30 transition-all">UI/UX Design</button>
+                        <button type="button" onclick="document.getElementById('rev-desc').value=this.innerText" class="text-[9px] font-bold px-2 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 hover:text-valoMint hover:border-valoMint/30 transition-all">Import</button>
+                    </div>
+                </div>
             </div>
+
             <div class="space-y-1.5">
-                <label class="text-[10px] font-bold uppercase tracking-wider text-valoSlate ml-1">Date</label>
-                <input type="date" id="rev-date" required class="w-full bg-slate-900/80 border border-slate-800 focus:border-valoMint rounded-xl py-3 px-4 text-sm font-mono text-white focus:outline-none">
+                <label class="text-[9px] font-black uppercase tracking-widest text-valoSlate ml-1">Partenaire associé (Optionnel)</label>
+                <div class="relative flex items-center">
+                    <i class="bi bi-person-search absolute left-4 text-slate-500 text-xs"></i>
+                    <input type="text" id="rev-partner" class="w-full bg-slate-900/80 border border-slate-800 focus:border-valoMint rounded-xl py-2.5 pl-9 pr-4 text-xs text-white focus:outline-none transition-colors" placeholder="Rechercher ou lier un contact...">
+                </div>
+                <div id="modal-partner-suggestions" class="hidden absolute left-0 right-0 mt-1 bg-slate-950 border border-slate-800 rounded-xl max-h-24 overflow-y-auto p-1 z-20 shadow-xl">
+                    </div>
             </div>
-            <button type="submit" id="submit-revenu" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-3.5 rounded-xl transition flex items-center justify-center gap-2 text-xs uppercase tracking-widest mt-6 shadow-md shadow-valoMint/10">
-                <span>Enregistrer le revenu</span><i class="bi bi-check-circle-fill"></i>
+
+            <div class="space-y-1.5">
+                <label class="text-[9px] font-black uppercase tracking-widest text-valoSlate ml-1">Date d'encaissement</label>
+                <div class="relative flex items-center">
+                    <input type="date" id="rev-date" required class="w-full bg-slate-900/80 border border-slate-800 focus:border-valoMint rounded-xl py-2.5 px-4 text-xs font-mono text-white focus:outline-none transition-colors">
+                </div>
+            </div>
+
+            <button type="submit" id="submit-revenu" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-3.5 rounded-xl transition flex items-center justify-center gap-2 text-[10px] uppercase tracking-widest mt-6 shadow-lg shadow-valoMint/10 active:scale-[0.99]">
+                <span>Valider l'encaissement</span><i class="bi bi-check-circle-fill text-xs"></i>
             </button>
         </form>
     </div>
