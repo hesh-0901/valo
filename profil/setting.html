@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>VALO — Configuration Centre</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💎</text></svg>">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
@@ -25,51 +28,59 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            -webkit-tap-highlight-color: transparent; 
+        }
         
-        /* Animation Accordéons Épurés */
+        /* Transition fluide de l'accordéon exclusif */
         .accordion-content { max-height: 0; overflow: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; }
         .accordion-open .accordion-content { max-height: 1000px; opacity: 1; padding-bottom: 20px; }
         .accordion-open .bi-chevron-right { transform: rotate(90deg); color: #10B981; }
         
         .profile-mesh { background: radial-gradient(circle at 100% 0%, rgba(16, 185, 129, 0.08), transparent 60%); }
+        
+        /* Personnalisation de la barre de défilement des listes */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-valoMidnight text-slate-200 h-full p-4 pb-12 select-none">
+<body class="bg-valoMidnight text-slate-200 min-h-full flex flex-col justify-center items-center p-4 md:p-8 select-none">
 
-    <div class="max-w-md mx-auto space-y-5">
+    <div class="w-full max-w-md mx-auto space-y-5">
         
-        <div class="flex items-center justify-between py-2">
-            <button onclick="window.location.href='../dashboard.html'" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-900 border border-slate-800/80 text-valoSlate hover:text-white transition-all">
-                <i class="bi bi-arrow-left"></i>
+        <div class="flex items-center justify-between py-1">
+            <button onclick="window.location.href='../dashboard.html'" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-900 border border-slate-800/80 text-valoSlate hover:text-white transition-all active:scale-95">
+                <i class="bi bi-arrow-left text-sm"></i>
             </button>
-            <h1 class="text-[10px] font-black uppercase tracking-[0.3em] text-valoSlate">Configuration</h1>
+            <h1 class="text-[9px] font-black uppercase tracking-[0.35em] text-valoSlate font-mono">Configuration</h1>
             <div class="w-9"></div>
         </div>
 
         <div class="bg-valoCard border border-slate-800/60 rounded-3xl p-5 relative overflow-hidden profile-mesh shadow-2xl">
             <div class="flex items-center gap-4 relative z-10">
                 <div class="relative shrink-0">
-                    <img id="set-avatar" src="../valo.png" class="w-16 h-16 rounded-2xl border border-slate-700/50 shadow-inner object-cover" alt="Avatar">
-                    <label for="file-avatar" class="absolute -bottom-1 -right-1 bg-valoMint text-valoMidnight w-5 h-5 rounded-lg flex items-center justify-center cursor-pointer shadow-md active:scale-95 transition-transform">
+                    <img id="set-avatar" src="../valo.png" class="w-16 h-16 rounded-2xl border border-slate-700/40 shadow-inner object-cover" alt="Avatar">
+                    <label for="file-avatar" class="absolute -bottom-1 -right-1 bg-valoMint text-valoMidnight w-5 h-5 rounded-lg flex items-center justify-center cursor-pointer shadow-md active:scale-90 transition-transform">
                         <i class="bi bi-camera-fill text-[9px]"></i>
                     </label>
                     <input type="file" id="file-avatar" class="hidden" accept="image/*">
                 </div>
-                <div class="space-y-0.5">
-                    <h2 id="set-fullname" class="text-base font-extrabold tracking-tight text-white">Chargement...</h2>
-                    <p id="set-username" class="text-[10px] font-bold text-valoMint uppercase tracking-widest font-mono">@username</p>
-                    <p id="set-email" class="text-[10px] text-slate-500 font-medium"></p>
+                <div class="space-y-0.5 min-w-0">
+                    <h2 id="set-fullname" class="text-base font-extrabold tracking-tight text-white truncate">Chargement...</h2>
+                    <p id="set-username" class="text-[10px] font-bold text-valoMint uppercase tracking-widest font-mono truncate">@username</p>
+                    <p id="set-email" class="text-[10px] text-slate-500 font-medium truncate"></p>
                 </div>
             </div>
             
             <div class="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-slate-800/40">
                 <div class="bg-slate-950/40 rounded-xl p-2.5 border border-slate-800/30">
-                    <span class="text-[7px] uppercase font-black text-valoSlate tracking-widest block">Membre depuis</span>
+                    <span class="text-[7px] uppercase font-black text-valoSlate tracking-widest block mb-0.5">Membre depuis</span>
                     <span id="set-joined" class="text-[10px] font-mono text-slate-300 font-bold">--/--/----</span>
                 </div>
                 <div class="bg-slate-950/40 rounded-xl p-2.5 border border-slate-800/30">
-                    <span class="text-[7px] uppercase font-black text-valoSlate tracking-widest block">Vérification</span>
+                    <span class="text-[7px] uppercase font-black text-valoSlate tracking-widest block mb-0.5">Vérification</span>
                     <span class="text-[10px] font-bold text-valoMint uppercase flex items-center gap-1"><i class="bi bi-shield-check"></i> Actif</span>
                 </div>
             </div>
@@ -78,7 +89,7 @@
         <div class="space-y-2.5" id="settings-accordion-group">
 
             <div class="bg-valoCard border border-slate-800/50 rounded-2xl accordion-item overflow-hidden transition-all duration-200">
-                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger">
+                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger outline-none">
                     <span class="flex items-center gap-3 text-[10px] font-black uppercase tracking-wider text-slate-400">
                         <i class="bi bi-currency-exchange text-valoMint"></i> Taux de conversion indicatif
                     </span>
@@ -89,11 +100,11 @@
                     <div class="flex gap-2">
                         <div class="flex-grow space-y-1">
                             <label class="text-[8px] font-bold text-valoSlate uppercase ml-1">1 USD ($) =</label>
-                            <input type="number" id="set-rate" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs font-mono text-white focus:outline-none focus:border-valoMint" placeholder="Ex: 2850">
+                            <input type="number" id="set-rate" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2.5 px-3 text-xs font-mono text-white focus:outline-none focus:border-valoMint" placeholder="Ex: 2850">
                         </div>
                         <div class="space-y-1 w-1/3">
                             <label class="text-[8px] font-bold text-valoSlate uppercase ml-1">Périodicité</label>
-                            <select id="set-period" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-2 text-[10px] font-medium text-white focus:outline-none">
+                            <select id="set-period" class="w-full h-[41px] bg-valoInput border border-slate-800 rounded-xl px-2 text-[10px] font-medium text-white focus:outline-none appearance-none">
                                 <option value="daily">Aujourd'hui</option>
                                 <option value="weekly">Semaine</option>
                                 <option value="fixed">Fixé</option>
@@ -104,7 +115,7 @@
             </div>
 
             <div class="bg-valoCard border border-slate-800/50 rounded-2xl accordion-item overflow-hidden transition-all duration-200">
-                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger">
+                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger outline-none">
                     <span class="flex items-center gap-3 text-[10px] font-black uppercase tracking-wider text-slate-400">
                         <i class="bi bi-people-fill text-valoMint"></i> Partenaires financiers
                     </span>
@@ -113,14 +124,14 @@
                 <div class="accordion-content px-4 space-y-3">
                     <div id="set-partners-list" class="space-y-1.5 max-h-36 overflow-y-auto pr-1"></div>
                     <div class="flex gap-2 pt-1">
-                        <input type="text" id="add-partner-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none" placeholder="Nom du contact récurrent">
-                        <button id="btn-add-partner" class="w-9 h-9 bg-valoMint hover:bg-valoMintHover text-valoMidnight rounded-xl flex items-center justify-center transition-colors shadow-lg"><i class="bi bi-plus-lg text-sm"></i></button>
+                        <input type="text" id="add-partner-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Nom du contact récurrent">
+                        <button id="btn-add-partner" class="w-9 h-9 bg-valoMint hover:bg-valoMintHover text-valoMidnight rounded-xl flex items-center justify-center transition-colors active:scale-95 shrink-0"><i class="bi bi-plus-lg text-sm"></i></button>
                     </div>
                 </div>
             </div>
 
             <div class="bg-valoCard border border-slate-800/50 rounded-2xl accordion-item overflow-hidden transition-all duration-200">
-                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger">
+                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger outline-none">
                     <span class="flex items-center gap-3 text-[10px] font-black uppercase tracking-wider text-slate-400">
                         <i class="bi bi-tags-fill text-valoMint"></i> Rubriques de transactions
                     </span>
@@ -131,23 +142,23 @@
                         <div class="flex justify-between items-center"><span class="text-[8px] font-black uppercase text-valoSlate tracking-widest">Sources d'entrées</span><span id="in-count" class="text-[9px] font-mono text-valoMint font-bold">0/10</span></div>
                         <div id="in-tags" class="grid grid-cols-2 gap-1.5"></div>
                         <div class="flex gap-1.5 pt-1">
-                            <input type="text" id="add-in-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-1.5 px-3 text-[11px] text-white focus:outline-none" placeholder="Ajouter une source...">
-                            <button id="btn-add-in" class="px-3 bg-slate-800 text-valoMint rounded-xl border border-slate-700 text-xs font-bold hover:bg-slate-700 transition-colors">+</button>
+                            <input type="text" id="add-in-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-1.5 px-3 text-[11px] text-white focus:outline-none focus:border-valoMint" placeholder="Ajouter une source...">
+                            <button id="btn-add-in" class="px-3 h-8 bg-slate-800 text-valoMint rounded-xl border border-slate-700 text-xs font-bold hover:bg-slate-700 transition-colors active:scale-95">+</button>
                         </div>
                     </div>
                     <div class="space-y-2">
                         <div class="flex justify-between items-center"><span class="text-[8px] font-black uppercase text-valoSlate tracking-widest">Raisons de sorties</span><span id="out-count" class="text-[9px] font-mono text-red-400 font-bold">0/10</span></div>
                         <div id="out-tags" class="grid grid-cols-2 gap-1.5"></div>
                         <div class="flex gap-1.5 pt-1">
-                            <input type="text" id="add-out-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-1.5 px-3 text-[11px] text-white focus:outline-none" placeholder="Ajouter un motif...">
-                            <button id="btn-add-out" class="px-3 bg-slate-800 text-red-400 rounded-xl border border-slate-700 text-xs font-bold hover:bg-slate-700 transition-colors">+</button>
+                            <input type="text" id="add-out-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-1.5 px-3 text-[11px] text-white focus:outline-none focus:border-valoMint" placeholder="Ajouter un motif...">
+                            <button id="btn-add-out" class="px-3 h-8 bg-slate-800 text-red-400 rounded-xl border border-slate-700 text-xs font-bold hover:bg-slate-700 transition-colors active:scale-95">+</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="bg-valoCard border border-slate-800/50 rounded-2xl accordion-item overflow-hidden transition-all duration-200">
-                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger">
+                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger outline-none">
                     <span class="flex items-center gap-3 text-[10px] font-black uppercase tracking-wider text-slate-400">
                         <i class="bi bi-shield-lock-fill text-valoMint"></i> Clé de sécurité
                     </span>
@@ -161,31 +172,31 @@
                     <div class="space-y-3">
                         <div class="space-y-1">
                             <label id="label-q1" class="text-[8px] font-black text-valoSlate uppercase tracking-widest block mb-0.5">Défi Récupération 1</label>
-                            <input type="text" id="ans-1" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none" placeholder="Réponse 1">
+                            <input type="text" id="ans-1" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Réponse 1">
                         </div>
                         
                         <div class="h-[1px] bg-slate-800/40 my-1"></div>
 
                         <div class="space-y-1">
                             <label id="label-q2" class="text-[8px] font-black text-valoSlate uppercase tracking-widest block mb-0.5">Défi Récupération 2</label>
-                            <input type="text" id="ans-2" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none" placeholder="Réponse 2">
+                            <input type="text" id="ans-2" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Réponse 2">
                         </div>
                     </div>
 
                     <div id="new-key-zone" class="hidden space-y-3 pt-3 border-t border-slate-800/50 transition-all">
                         <div class="space-y-1">
                             <label class="text-[8px] font-black text-valoMint uppercase tracking-widest block">Nouvelle Clé Secrète (Min. 6 car.)</label>
-                            <input type="password" id="new-key" class="w-full bg-slate-950 border border-valoMint/30 rounded-xl py-2 px-3 text-xs font-mono text-white focus:outline-none focus:border-valoMint" placeholder="••••••••">
+                            <input type="password" id="new-key" class="w-full bg-slate-950 border border-valoMint/30 rounded-xl py-2.5 px-3 text-xs font-mono text-white focus:outline-none focus:border-valoMint" placeholder="••••••••">
                         </div>
                     </div>
 
-                    <button id="btn-verify-security" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-2.5 rounded-xl text-[10px] uppercase tracking-widest transition-all">Vérifier les accès</button>
+                    <button id="btn-verify-security" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-3 rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-[0.98]">Vérifier les accès</button>
                 </div>
             </div>
 
         </div>
 
-        <button id="btn-logout-settings" class="w-full py-4 text-[9px] font-black uppercase tracking-[0.25em] text-red-500/40 hover:text-red-500 transition-colors">Clôturer la session active</button>
+        <button id="btn-logout-settings" class="w-full py-4 text-[9px] font-black uppercase tracking-[0.25em] text-red-500/40 hover:text-red-500 transition-colors active:scale-95">Clôturer la session active</button>
     </div>
 
     <script type="module" src="setting.js"></script>
