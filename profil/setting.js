@@ -1,228 +1,202 @@
 import { db, auth } from '../js/config.js';
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// Listes prédéfinies immuables (comme spécifié pour ton écosystème)
-const PREDEFINED_INCOMES = ["Salaire", "Cadeau", "Retrait d'investissement"];
-const PREDEFINED_EXPENSES = [
-    "Dîme", "Offrande", "Don", "Argent de poche", "Loyer", 
-    "Forfait appel", "Forfait internet", "Argent non retrouvé", 
-    "Investissement", "Épargne"
-];
+const PRESET_IN = ["Salaire", "Cadeau", "Retrait d'investissement"];
+const PRESET_OUT = ["Dîme", "Offrande", "Don", "Argent de poche", "Loyer", "Forfait appel", "Forfait internet", "Argent non retrouvé", "Investissement", "Épargne"];
 
-let currentUserDocRef = null;
-let userSecretData = { answer: '', question: '' };
+let userDocRef = null;
+let securityData = { q1: '', q2: '', a1: '', a2: '' };
+let isVerified = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Écouteur d'authentification
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            // Dans ton architecture, l'UID ou le username sert d'identifiant de document
-            currentUserDocRef = doc(db, "users", user.uid);
-            await loadUserData();
+            userDocRef = doc(db, "users", user.uid);
+            loadAllData();
         } else {
-            // Redirection si session expirée ou inexistante
             window.location.href = "../index.html";
         }
     });
 
-    // Liaison des événements d'ajouts
-    document.getElementById('btn-add-partner')?.addEventListener('click', addPartner);
-    document.getElementById('btn-add-income')?.addEventListener('click', () => addTag('income'));
-    document.getElementById('btn-add-expense')?.addEventListener('click', () => addTag('expense'));
-    document.getElementById('btn-save-security')?.addEventListener('click', updateSecurityKey);
-    document.getElementById('rate-value')?.addEventListener('change', saveExchangeRate);
-    document.getElementById('rate-period')?.addEventListener('change', saveExchangeRate);
+    setupAccordions();
+    setupEventListeners();
 });
 
-// 1. CHARGEMENT DES DONNÉES DEPUIS FIRESTORE
-async function loadUserData() {
-    try {
-        const userSnap = await getDoc(currentUserDocRef);
-        if (!userSnap.exists()) return;
+async function loadAllData() {
+    const snap = await getDoc(userDocRef);
+    if (!snap.exists()) return;
+    const data = snap.data();
 
-        const data = userSnap.data();
+    // 1. Profil
+    document.getElementById('set-fullname').textContent = data.fullName;
+    document.getElementById('set-username').textContent = `@${data.username}`;
+    document.getElementById('set-email').textContent = data.email;
+    document.getElementById('set-avatar').src = data.avatarUrl || '../valo.png';
+    
+    const joinedDate = data.createdAt ? new Date(data.createdAt.seconds * 1000) : new Date();
+    document.getElementById('set-joined').textContent = joinedDate.toLocaleDateString();
 
-        // Profil global
-        document.getElementById('profile-full-name').textContent = data.fullName || 'Utilisateur VALO';
-        document.getElementById('profile-username').textContent = `@${data.username || 'username'}`;
-        if (data.avatarUrl) {
-            document.getElementById('setting-avatar').src = data.avatarUrl;
+    // 2. Taux
+    document.getElementById('set-rate').value = data.exchangeRate?.value || 2850;
+    document.getElementById('set-period').value = data.exchangeRate?.period || 'daily';
+
+    // 3. Sécurité (Questions de Register)
+    if (data.security) {
+        securityData = {
+            q1: data.security.q1,
+            q2: data.security.q2,
+            a1: data.security.a1,
+            a2: data.security.a2
+        };
+        document.getElementById('label-q1').textContent = securityData.q1;
+        document.getElementById('label-q2').textContent = securityData.q2;
+    }
+
+    // 4. Listes
+    renderPartners(data.partners || []);
+    renderTags('in', data.customIn || []);
+    renderTags('out', data.customOut || []);
+}
+
+function setupAccordions() {
+    const triggers = document.querySelectorAll('.accordion-trigger');
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const item = trigger.parentElement;
+            const wasOpen = item.classList.contains('accordion-open');
+            document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('accordion-open'));
+            if (!wasOpen) item.classList.add('accordion-open');
+        });
+    });
+}
+
+function setupEventListeners() {
+    // Taux
+    document.getElementById('set-rate').onchange = saveRate;
+    document.getElementById('set-period').onchange = saveRate;
+
+    // Logout
+    document.getElementById('btn-logout-settings').onclick = () => signOut(auth).then(() => window.location.href = "../index.html");
+
+    // Partners
+    document.getElementById('btn-add-partner').onclick = addPartner;
+
+    // Tags
+    document.getElementById('btn-add-in').onclick = () => addTag('in');
+    document.getElementById('btn-add-out').onclick = () => addTag('out');
+
+    // Vérification Sécurité
+    document.getElementById('btn-verify-security').onclick = handleSecurityProcess;
+}
+
+// --- LOGIQUE SÉCURITÉ ---
+async function handleSecurityProcess() {
+    const btn = document.getElementById('btn-verify-security');
+    
+    if (!isVerified) {
+        // Étape de vérification
+        const ans1 = document.getElementById('ans-1').value.trim().toLowerCase();
+        const ans2 = document.getElementById('ans-2').value.trim().toLowerCase();
+
+        if (ans1 === securityData.a1.toLowerCase() && ans2 === securityData.a2.toLowerCase()) {
+            isVerified = true;
+            document.getElementById('new-key-zone').classList.remove('hidden');
+            btn.textContent = "Mettre à jour le Code Secret";
+            btn.classList.replace('bg-valoMint', 'bg-emerald-500');
+            // Désactiver les inputs de réponses
+            document.getElementById('ans-1').disabled = true;
+            document.getElementById('ans-2').disabled = true;
+        } else {
+            alert("🔒 Les réponses ne correspondent pas à votre identité.");
         }
+    } else {
+        // Étape de mise à jour
+        const newKey = document.getElementById('new-key').value.trim();
+        if (newKey.length < 4) return alert("Le code doit avoir au moins 4 caractères.");
 
-        // Taux de change
-        if (data.exchangeRate) {
-            document.getElementById('rate-value').value = data.exchangeRate.value || '';
-            document.getElementById('rate-period').value = data.exchangeRate.period || 'daily';
-        }
-
-        // Récupération de la question secrète posée dans Register
-        if (data.security) {
-            userSecretData.question = data.security.question || "Question de récupération";
-            userSecretData.answer = data.security.answer || ""; // Sauvegardée en mémoire locale pour vérification
-            document.getElementById('lbl-question-1').textContent = userSecretData.question;
-        }
-
-        // Rendu des listes dynamiques
-        renderPartners(data.partners || []);
-        renderTags('income', data.customIncomes || []);
-        renderTags('expense', data.customExpenses || []);
-
-    } catch (error) {
-        console.error("Erreur de chargement des paramètres:", error);
+        await updateDoc(userDocRef, { accessKey: newKey });
+        alert("✅ Code Secret actualisé !");
+        location.reload();
     }
 }
 
-// 2. GESTION DU TAUX DE CHANGE
-async function saveExchangeRate() {
-    const value = parseFloat(document.getElementById('rate-value').value);
-    const period = document.getElementById('rate-period').value;
-
-    if (!value) return;
-
-    await updateDoc(currentUserDocRef, {
-        exchangeRate: { value, period, updatedAt: new Date().toISOString() }
-    });
-}
-
-// 3. SECTORISATION DES PARTENAIRES FINANCIERS
-function renderPartners(partners) {
-    const container = document.getElementById('partners-list');
-    container.innerHTML = '';
-
-    partners.forEach((partner, index) => {
-        const div = document.createElement('div');
-        div.className = "flex items-center justify-between bg-slate-950/40 p-2 rounded-lg border border-slate-800/40";
-        div.innerHTML = `
-            <span class="text-xs font-medium text-slate-200">${partner}</span>
-            <button class="text-red-400 text-xs p-1 hover:text-red-500 transition-colors" data-index="${index}">
-                <i class="bi bi-trash"></i>
-            </button>
-        `;
-        div.querySelector('button').addEventListener('click', () => deletePartner(index, partners));
-        container.appendChild(div);
-    });
+// --- LOGIQUE LISTES & TAGS ---
+async function saveRate() {
+    const value = document.getElementById('set-rate').value;
+    const period = document.getElementById('set-period').value;
+    await updateDoc(userDocRef, { exchangeRate: { value, period } });
 }
 
 async function addPartner() {
-    const input = document.getElementById('new-partner-name');
-    const name = input.value.trim();
+    const name = document.getElementById('add-partner-input').value.trim();
     if (!name) return;
-
-    const userSnap = await getDoc(currentUserDocRef);
-    const currentPartners = userSnap.data().partners || [];
-
-    currentPartners.push(name);
-    await updateDoc(currentUserDocRef, { partners: currentPartners });
-    input.value = '';
-    renderPartners(currentPartners);
+    const snap = await getDoc(userDocRef);
+    const list = snap.data().partners || [];
+    list.push(name);
+    await updateDoc(userDocRef, { partners: list });
+    document.getElementById('add-partner-input').value = '';
+    renderPartners(list);
 }
 
-async function deletePartner(index, currentPartners) {
-    currentPartners.splice(index, 1);
-    await updateDoc(currentUserDocRef, { partners: currentPartners });
-    renderPartners(currentPartners);
+function renderPartners(list) {
+    const container = document.getElementById('set-partners-list');
+    container.innerHTML = list.map((p, i) => `
+        <div class="flex justify-between items-center bg-slate-900 p-2 rounded-xl border border-slate-800">
+            <span class="text-[11px]">${p}</span>
+            <button onclick="window.delPartner(${i})" class="text-red-400 p-1"><i class="bi bi-trash"></i></button>
+        </div>
+    `).join('');
 }
 
-// 4. GESTION DES RUBRIQUES ENTRÉES / SORTIES (MAX 10)
-function renderTags(type, customTags) {
-    const container = document.getElementById(`${type}-tags-container`);
-    const countLabel = document.getElementById(`${type}-count`);
-    const predefinedList = type === 'income' ? PREDEFINED_INCOMES : PREDEFINED_EXPENSES;
+window.delPartner = async (index) => {
+    const snap = await getDoc(userDocRef);
+    const list = snap.data().partners || [];
+    list.splice(index, 1);
+    await updateDoc(userDocRef, { partners: list });
+    renderPartners(list);
+};
 
-    container.innerHTML = '';
-
-    // Affichage des verrous prédéfinis
-    predefinedList.forEach(tag => {
-        container.appendChild(createTagElement(tag, true));
-    });
-
-    // Affichage des personnalisés éditables
-    customTags.forEach((tag, index) => {
-        container.appendChild(createTagElement(tag, false, () => deleteTag(type, index, customTags)));
-    });
-
-    // Total cumulé sur la limite max de 10 personnalisés
-    countLabel.textContent = `${customTags.length}/10`;
-}
-
-function createTagElement(text, isPredefined, onDeleteClick = null) {
-    const div = document.createElement('div');
-    div.className = "bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center text-[10px]";
-    
-    if (isPredefined) {
-        div.innerHTML = `<span class="truncate pr-1">${text}</span><i class="bi bi-lock-fill text-[8px] text-valoSlate shrink-0"></i>`;
-    } else {
-        div.innerHTML = `
-            <span class="truncate pr-1 text-white">${text}</span>
-            <button type="button" class="text-red-400 hover:text-red-500 text-[9px] shrink-0"><i class="bi bi-x-circle-fill"></i></button>
-        `;
-        div.querySelector('button').addEventListener('click', onDeleteClick);
-    }
-    return div;
-}
-
+// Logique Tags Similaire...
 async function addTag(type) {
-    const input = document.getElementById(`new-${type}-tag`);
-    const newTag = input.value.trim();
-    if (!newTag) return;
-
-    const userSnap = await getDoc(currentUserDocRef);
-    const fieldName = type === 'income' ? 'customIncomes' : 'customExpenses';
-    const currentTags = userSnap.data()[fieldName] || [];
-
-    // Blocage strict à 10 éléments personnalisés
-    if (currentTags.length >= 10) {
-        alert("Limite maximale de 10 rubriques personnalisées atteinte.");
-        return;
-    }
-
-    currentTags.push(newTag);
-    await updateDoc(currentUserDocRef, { [fieldName]: currentTags });
+    const input = document.getElementById(`add-${type}-input`);
+    const val = input.value.trim();
+    if (!val) return;
+    const snap = await getDoc(userDocRef);
+    const list = snap.data()[`custom${type === 'in' ? 'In' : 'Out'}`] || [];
+    if (list.length >= 10) return alert("Maximum atteint.");
+    list.push(val);
+    await updateDoc(userDocRef, { [`custom${type === 'in' ? 'In' : 'Out'}`]: list });
     input.value = '';
-    renderTags(type, currentTags);
+    renderTags(type, list);
 }
 
-async function deleteTag(type, index, currentTags) {
-    const fieldName = type === 'income' ? 'customIncomes' : 'customExpenses';
-    currentTags.splice(index, 1);
-    await updateDoc(currentUserDocRef, { [fieldName]: currentTags });
-    renderTags(type, currentTags);
+function renderTags(type, list) {
+    const container = document.getElementById(`${type}-tags`);
+    const presets = type === 'in' ? PRESET_IN : PRESET_OUT;
+    
+    let html = presets.map(t => `
+        <div class="bg-slate-900 border border-slate-800 p-2 rounded-lg flex justify-between items-center text-[9px] text-slate-400">
+            <span>${t}</span><i class="bi bi-lock-fill"></i>
+        </div>
+    `).join('');
+
+    html += list.map((t, i) => `
+        <div class="bg-slate-800 border border-valoMint/20 p-2 rounded-lg flex justify-between items-center text-[9px] text-white">
+            <span>${t}</span>
+            <button onclick="window.delTag('${type}', ${i})" class="text-red-400"><i class="bi bi-x"></i></button>
+        </div>
+    `).join('');
+
+    container.innerHTML = html;
+    document.getElementById(`${type}-count`).textContent = `${list.length}/10`;
 }
 
-// 5. DOUBLE VERROU ET CONDITIONNEMENT PAR QUESTIONS SECRÈTES
-async function updateSecurityKey() {
-    const answerInput = document.getElementById('sec-answer-1').value.trim();
-    const newKeyInput = document.getElementById('new-access-key').value.trim();
-    const btn = document.getElementById('btn-save-security');
-
-    if (!answerInput || !newKeyInput) {
-        alert("Veuillez remplir la réponse et le nouveau code.");
-        return;
-    }
-
-    // Vérification de la réponse (Comparaison insensible à la casse)
-    if (answerInput.toLowerCase() !== userSecretData.answer.toLowerCase()) {
-        alert("Réponse de sécurité incorrecte. Modification de l'index refusée.");
-        return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = "MISE À JOUR...";
-
-    try {
-        // Mise à jour de l'accessKey ou du mot de passe dans ton modèle Firestore
-        await updateDoc(currentUserDocRef, {
-            accessKey: newKeyInput 
-        });
-        
-        alert("Code Secret actualisé avec succès !");
-        document.getElementById('sec-answer-1').value = '';
-        document.getElementById('new-access-key').value = '';
-    } catch (error) {
-        console.error("Erreur de mise à jour de clé :", error);
-    } finally {
-        btn.disabled = false;
-        btn.textContent = "Mettre à jour la clé";
-    }
-}
+window.delTag = async (type, index) => {
+    const snap = await getDoc(userDocRef);
+    const field = `custom${type === 'in' ? 'In' : 'Out'}`;
+    const list = snap.data()[field] || [];
+    list.splice(index, 1);
+    await updateDoc(userDocRef, { [field]: list });
+    renderTags(type, list);
+};
