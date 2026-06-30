@@ -2,8 +2,8 @@
 <html lang="fr" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALO - Portefeuille Virtuel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VALO - Access Point</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
@@ -12,74 +12,103 @@
             theme: {
                 extend: {
                     colors: {
-                        valoMidnight: '#0F172A',
+                        valoMidnight: '#020617', // Encore plus sombre
                         valoMint: '#10B981',
-                        valoMintHover: '#059669',
-                        valoSlate: '#64748B',
-                        valoCard: '#1E293B',
-                        valoCrimson: '#EF4444'
+                        valoSlate: '#475569',
+                        valoCard: 'rgba(15, 23, 42, 0.6)' // Transparent pour le glassmorphism
                     }
                 }
             }
         }
     </script>
 
-    <link rel="shortcut icon" type="image/x-icon" href="icons/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'JetBrains Mono', monospace; /* Look code/futuriste */
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        input::placeholder {
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0.4;
+        }
+
+        /* Animation d'apparition douce */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
     <link rel="manifest" href="manifest.json">
 </head>
-<body class="bg-valoMidnight text-white h-full font-sans antialiased flex items-center justify-center p-4 relative overflow-hidden">
+<body class="bg-valoMidnight text-white h-full flex items-center justify-center p-6 relative overflow-hidden select-none">
 
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.04),transparent_60%)] pointer-events-none"></div>
+    <div class="absolute inset-0 z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-valoMint/5 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-valoMint/5 rounded-full blur-[120px]"></div>
+        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 30px 30px;"></div>
+    </div>
 
-    <div class="w-full max-w-[440px] bg-valoCard border border-slate-800/80 rounded-[2rem] p-6 md:p-10 shadow-2xl z-10">
+    <div class="w-full max-w-[360px] glass-panel rounded-2xl p-8 shadow-2xl z-10 fade-in">
         
-        <div class="text-center mb-8">
-            <img src="valo.png" alt="VALO" class="h-12 mx-auto mb-3 object-contain">
-            <h2 class="text-xl font-black tracking-tight">Connexion à votre espace</h2>
-            <p class="text-valoSlate text-xs mt-1">Gérez vos finances en toute sécurité</p>
+        <div class="text-center mb-10">
+            <img src="valo.png" alt="VALO" class="h-8 mx-auto mb-4 opacity-90">
+            <div class="inline-block border-y border-valoMint/20 py-1 px-4">
+                <h2 class="text-[10px] font-bold tracking-[0.4em] uppercase text-valoMint">Authentification</h2>
+            </div>
         </div>
 
-        <div id="login-error" class="hidden mb-4 p-4 bg-valoCrimson/10 border border-valoCrimson/20 rounded-xl text-valoCrimson text-xs flex items-center gap-3">
-            <i class="bi bi-shield-exclamation text-lg shrink-0"></i>
-            <span id="login-error-text">Identifiants incorrects.</span>
+        <div id="login-error" class="hidden mb-6 p-3 border-l-2 border-red-500 bg-red-500/5 text-red-400 text-[9px] tracking-wider uppercase flex items-center gap-2">
+            <i class="bi bi-exclamation-triangle"></i>
+            <span id="login-error-text">Accès refusé.</span>
         </div>
 
-        <form id="login-form" class="space-y-4">
-            <div class="space-y-1.5">
-                <label class="text-[10px] font-bold uppercase tracking-[0.15em] text-valoSlate ml-1">Nom d'utilisateur</label>
-                <div class="relative flex items-center">
-                    <span class="absolute left-4 text-valoMint font-black text-sm select-none">@</span>
-                    <input type="text" id="login-username" required autocomplete="username" class="w-full bg-slate-900/60 border border-slate-800/80 focus:border-valoMint rounded-xl py-3.5 pl-9 pr-4 text-sm text-white focus:outline-none transition-all font-medium" placeholder="pseudo">
+        <form id="login-form" class="space-y-6">
+            <div class="space-y-2">
+                <label class="text-[8px] font-bold uppercase tracking-[0.3em] text-valoSlate ml-1">Identity_Token</label>
+                <div class="relative group">
+                    <input type="text" id="login-username" required class="w-full bg-slate-950/40 border-b border-slate-800 focus:border-valoMint py-2 px-1 text-xs text-white focus:outline-none transition-all duration-500" placeholder="Username">
                 </div>
             </div>
 
-            <div class="space-y-1.5">
+            <div class="space-y-2">
                 <div class="flex justify-between items-center px-1">
-                    <label class="text-[10px] font-bold uppercase tracking-[0.15em] text-valoSlate">Mot de passe</label>
-                    <a href="#" class="text-[10px] font-bold text-valoSlate hover:text-valoMint transition">Oublié ?</a>
+                    <label class="text-[8px] font-bold uppercase tracking-[0.3em] text-valoSlate">Access_Key</label>
                 </div>
-                <div class="relative flex items-center">
-                    <i class="bi bi-lock absolute left-4 text-valoSlate text-base"></i>
-                    <input type="password" id="login-password" required autocomplete="current-password" class="w-full bg-slate-900/60 border border-slate-800/80 focus:border-valoMint rounded-xl py-3.5 pl-12 pr-12 text-sm text-white focus:outline-none transition-all">
-                    <button type="button" id="toggle-login-pass" class="absolute right-4 text-valoSlate hover:text-white transition">
-                        <i class="bi bi-eye text-base"></i>
+                <div class="relative group">
+                    <input type="password" id="login-password" required class="w-full bg-slate-950/40 border-b border-slate-800 focus:border-valoMint py-2 px-1 text-xs text-white focus:outline-none transition-all duration-500" placeholder="Secret_Code">
+                    <button type="button" id="toggle-login-pass" class="absolute right-1 top-2 text-valoSlate hover:text-valoMint transition-colors">
+                        <i class="bi bi-eye text-xs"></i>
                     </button>
                 </div>
             </div>
 
-            <button type="submit" id="btn-login" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-4 rounded-xl transition shadow-lg shadow-valoMint/5 flex items-center justify-center gap-2 uppercase text-xs tracking-wider mt-6">
-                <span>Se connecter</span>
-                <i class="bi bi-arrow-right-short text-lg"></i>
+            <button type="submit" id="btn-login" class="group relative w-full overflow-hidden border border-valoMint/30 hover:border-valoMint bg-valoMint/5 py-3 rounded transition-all duration-500 mt-4">
+                <div class="absolute inset-0 w-0 bg-valoMint transition-all duration-500 group-hover:w-full opacity-10"></div>
+                <span class="relative text-[10px] font-black tracking-[0.3em] uppercase text-valoMint group-hover:text-white transition-colors">Initialiser la session</span>
             </button>
         </form>
 
-        <div class="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between">
-            <span class="text-xs text-valoSlate">Nouveau sur VALO ?</span>
-            <a href="./profil/register.html" class="text-xs font-bold text-valoMint hover:text-white transition flex items-center gap-2 tracking-wider uppercase">
-                S'enregistrer <i class="bi bi-person-plus-fill text-sm"></i>
+        <div class="mt-10 flex flex-col items-center gap-4">
+            <a href="./profil/register.html" class="text-[8px] font-bold text-valoSlate hover:text-white transition-all tracking-[0.2em] uppercase">
+                Créer un nouvel index <i class="bi bi-chevron-right text-[7px]"></i>
             </a>
+            <div class="h-[1px] w-8 bg-slate-800"></div>
+            <p class="text-[7px] text-slate-600 tracking-widest uppercase">Valo_Network v1.0.7</p>
         </div>
     </div>
 
@@ -93,7 +122,6 @@
             const errorZone = document.getElementById('login-error');
             const errorText = document.getElementById('login-error-text');
 
-            // Toggle Affichage Mot de passe
             togglePass.addEventListener('click', () => {
                 const icon = togglePass.querySelector('i');
                 if (passInput.type === 'password') {
@@ -105,7 +133,6 @@
                 }
             });
 
-            // Connexion
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const username = document.getElementById('login-username').value.trim().toLowerCase();
@@ -114,18 +141,17 @@
 
                 errorZone.classList.add('hidden');
                 btn.disabled = true;
-                btn.querySelector('span').textContent = "VÉRIFICATION...";
+                btn.querySelector('span').textContent = "Verification_In_Progress...";
 
                 try {
                     await loginWithUsername(username, secret);
                     window.location.href = "./dashboard.html";
                 } catch (err) {
                     errorZone.classList.remove('hidden');
-                    errorText.textContent = "Nom d'utilisateur ou mot de passe invalide.";
-                    console.error(err);
+                    errorText.textContent = "Identity_Mismatch_Error.";
                 } finally {
                     btn.disabled = false;
-                    btn.querySelector('span').textContent = "Se connecter";
+                    btn.querySelector('span').textContent = "Initialiser la session";
                 }
             });
         });
