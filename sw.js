@@ -1,10 +1,25 @@
-const CACHE_NAME = 'valo-v1.0.7';
+const CACHE_NAME = 'valo-v1.0.8';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './dashboard.html',
   './manifest.json',
   './valo.png',
-  './lat_valo.png'
+  './lat_valo.png',
+  
+  // Scripts principaux et configuration
+  './js/dashboard.js',
+  './js/config.js', // (Ajouté si présent dans ton dossier /js pour Firebase)
+
+  // Dossier Profil
+  './profil/register.html',
+  './profil/register.js',
+
+  // Dossier Modals (Structure éclatée)
+  './modal/revenu.html',
+  './modal/sortie.html',
+  './modal/js/revenu.js',
+  './modal/js/sortie.js'
 ];
 
 // Événement d'installation : Mise en cache des ressources critiques
