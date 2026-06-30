@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VALO - Paramètres</title>
+    <title>VALO - Paramètres Avancés</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
@@ -12,12 +12,11 @@
             theme: {
                 extend: {
                     colors: {
-                        valoMidnight: '#0F172A',
+                        valoMidnight: '#020617', // Plus profond
                         valoMint: '#10B981',
-                        valoMintHover: '#059669',
-                        valoSlate: '#64748B',
-                        valoCard: '#1E293B',
-                        valoInput: '#0F172A'
+                        valoSlate: '#475569',
+                        valoCard: '#0F172A',
+                        valoInput: '#020617'
                     }
                 }
             }
@@ -25,200 +24,179 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* Transition pour l'accordéon */
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-        .accordion-open .accordion-content {
-            max-height: 500px; /* Hauteur max estimée pour le contenu */
-        }
-        .accordion-open .bi-chevron-down {
-            transform: rotate(180deg);
-        }
+        .accordion-content { max-height: 0; overflow: hidden; transition: all 0.3s ease-in-out; opacity: 0; }
+        .accordion-open .accordion-content { max-height: 800px; opacity: 1; padding-bottom: 20px; }
+        .accordion-open .bi-chevron-right { transform: rotate(90deg); color: #10B981; }
+        
+        .profile-gradient { background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.1), transparent); }
     </style>
 </head>
-<body class="bg-valoMidnight text-white h-full antialiased p-4 pb-12 select-none">
+<body class="bg-valoMidnight text-slate-200 h-full p-4 pb-10">
 
     <div class="max-w-md mx-auto space-y-6">
         
-        <header class="flex items-center gap-4 py-2 border-b border-slate-800/60">
-            <a href="../dashboard.html" class="text-valoSlate hover:text-white transition-colors p-1">
-                <i class="bi bi-chevron-left text-base"></i>
-            </a>
-            <div>
-                <h1 class="text-sm font-black uppercase tracking-widest">Configuration</h1>
-                <p class="text-[9px] text-valoSlate uppercase tracking-wider">Ajustements généraux du compte</p>
-            </div>
-        </header>
+        <div class="flex items-center justify-between py-2">
+            <button onclick="window.location.href='../dashboard.html'" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-valoSlate">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <h1 class="text-[10px] font-black uppercase tracking-[0.3em] text-valoSlate">Account_Settings</h1>
+            <div class="w-8"></div>
+        </div>
 
-        <div class="bg-valoCard border border-slate-800/60 rounded-2xl p-4 flex items-center gap-4 shadow-xl">
-            <div class="relative shrink-0">
-                <img id="setting-avatar" src="../valo.png" class="w-14 h-14 rounded-full border-2 border-valoMint/30 object-cover" alt="Avatar">
-                <label for="avatar-upload" class="absolute bottom-0 right-0 bg-valoMint text-valoMidnight w-5 h-5 rounded-full flex items-center justify-center shadow cursor-pointer transition active:scale-90">
-                    <i class="bi bi-camera-fill text-[10px]"></i>
-                </label>
-                <input type="file" id="avatar-upload" class="hidden" accept="image/*">
-            </div>
-            <div class="flex-grow">
-                <h2 class="text-sm font-black tracking-tight" id="profile-full-name">Chargement...</h2>
-                <p class="text-[10px] text-valoSlate font-medium font-mono" id="profile-username">@username</p>
-                <span class="inline-block mt-1 text-[8px] bg-slate-900 text-valoMint font-bold px-2 py-0.5 rounded uppercase tracking-wider">Compte Actif</span>
+        <div class="bg-valoCard border border-slate-800/50 rounded-3xl p-6 relative overflow-hidden profile-gradient shadow-2xl">
+            <div class="flex flex-col items-center gap-4 relative z-10">
+                <div class="relative">
+                    <img id="set-avatar" src="../valo.png" class="w-20 h-20 rounded-full border-4 border-slate-900 shadow-2xl object-cover">
+                    <label for="file-avatar" class="absolute bottom-0 right-0 bg-valoMint text-valoMidnight w-6 h-6 rounded-full flex items-center justify-center cursor-pointer shadow-lg">
+                        <i class="bi bi-pencil-fill text-[10px]"></i>
+                    </label>
+                    <input type="file" id="file-avatar" class="hidden" accept="image/*">
+                </div>
+                <div class="text-center">
+                    <h2 id="set-fullname" class="text-lg font-black tracking-tight text-white italic">...</h2>
+                    <p id="set-username" class="text-[10px] font-bold text-valoMint uppercase tracking-widest">@username</p>
+                </div>
+                <div class="w-full grid grid-cols-2 gap-2 mt-2">
+                    <div class="bg-slate-950/50 rounded-xl p-2 text-center border border-slate-800/30">
+                        <p class="text-[7px] uppercase font-bold text-valoSlate tracking-tighter">Membre depuis</p>
+                        <p id="set-joined" class="text-[9px] font-mono text-slate-300">--/--/----</p>
+                    </div>
+                    <div class="bg-slate-950/50 rounded-xl p-2 text-center border border-slate-800/30">
+                        <p class="text-[7px] uppercase font-bold text-valoSlate tracking-tighter">Identity_Verified</p>
+                        <p class="text-[9px] font-mono text-valoMint uppercase">Active</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="space-y-3" id="settings-accordion">
+        <div class="space-y-2" id="settings-group">
 
-            <div class="bg-valoCard border border-slate-800/60 rounded-xl overflow-hidden accordion-item">
-                <button class="w-full p-3.5 flex items-center justify-between text-left font-bold text-xs uppercase tracking-wide text-slate-200 accordion-trigger">
-                    <span class="flex items-center gap-2.5"><i class="bi bi-currency-exchange text-valoMint"></i>Taux de change</span>
-                    <i class="bi bi-chevron-down text-[10px] text-valoSlate transition-transform"></i>
+            <div class="bg-valoCard border border-slate-800/50 rounded-2xl accordion-item overflow-hidden transition-all duration-300">
+                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger">
+                    <span class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        <i class="bi bi-person-badge-fill text-valoMint"></i> Informations Générales
+                    </span>
+                    <i class="bi bi-chevron-right text-[10px] transition-transform"></i>
                 </button>
-                <div class="accordion-content bg-slate-900/40 px-4 pb-4 space-y-3 pt-1">
-                    <p class="text-[10px] text-valoSlate leading-normal">Configurez le taux de référence indicatif CDF par rapport à l'USD ($).</p>
+                <div class="accordion-content px-4 space-y-4">
+                    <div class="space-y-1">
+                        <label class="text-[8px] font-bold text-valoSlate uppercase ml-1">Adresse E-mail</label>
+                        <p id="set-email" class="w-full bg-slate-950/50 border border-slate-800 rounded-xl py-2 px-3 text-[11px] text-slate-400 italic">...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-valoCard border border-slate-800/50 rounded-2xl accordion-item overflow-hidden transition-all duration-300">
+                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger">
+                    <span class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        <i class="bi bi-currency-exchange text-valoMint"></i> Taux de Référence (CDF)
+                    </span>
+                    <i class="bi bi-chevron-right text-[10px] transition-transform"></i>
+                </button>
+                <div class="accordion-content px-4 space-y-4">
                     <div class="flex gap-2">
-                        <div class="w-1/2 space-y-1">
-                            <label class="text-[9px] text-valoSlate uppercase font-bold">1 USD ($) =</label>
-                            <input type="number" id="rate-value" class="w-full bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-xs font-mono text-white focus:outline-none focus:border-valoMint" placeholder="Ex: 2850">
+                        <div class="flex-grow space-y-1">
+                            <label class="text-[8px] font-bold text-valoSlate uppercase ml-1">1 USD ($) =</label>
+                            <input type="number" id="set-rate" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-xs font-mono text-white focus:outline-none focus:border-valoMint" placeholder="2850">
                         </div>
-                        <div class="w-1/2 space-y-1">
-                            <label class="text-[9px] text-valoSlate uppercase font-bold">Période d'application</label>
-                            <select id="rate-period" class="w-full bg-valoInput border border-slate-800 rounded-lg py-1.5 px-2 text-xs text-white focus:outline-none focus:border-valoMint">
-                                <option value="daily">Aujourd'hui</option>
-                                <option value="weekly">Cette semaine</option>
-                                <option value="monthly">Ce mois</option>
+                        <div class="space-y-1 w-1/3">
+                            <label class="text-[8px] font-bold text-valoSlate uppercase ml-1">Validité</label>
+                            <select id="set-period" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-2 text-[10px] text-white focus:outline-none">
+                                <option value="daily">Journalier</option>
+                                <option value="weekly">Hebdo</option>
+                                <option value="fixed">Fixe</option>
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-valoCard border border-slate-800/60 rounded-xl overflow-hidden accordion-item">
-                <button class="w-full p-3.5 flex items-center justify-between text-left font-bold text-xs uppercase tracking-wide text-slate-200 accordion-trigger">
-                    <span class="flex items-center gap-2.5"><i class="bi bi-people-fill text-valoMint"></i>Partenaires financiers</span>
-                    <i class="bi bi-chevron-down text-[10px] text-valoSlate transition-transform"></i>
+            <div class="bg-valoCard border border-slate-800/50 rounded-2xl accordion-item overflow-hidden transition-all duration-300">
+                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger">
+                    <span class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        <i class="bi bi-people-fill text-valoMint"></i> Partenaires Financiers
+                    </span>
+                    <i class="bi bi-chevron-right text-[10px] transition-transform"></i>
                 </button>
-                <div class="accordion-content bg-slate-900/40 px-4 pb-4 space-y-3 pt-1">
-                    <p class="text-[10px] text-valoSlate">Gestion des contacts récurrents pour vos transactions (Prêts, Dettes, Cadeaux).</p>
-                    <div class="space-y-2" id="partners-list">
-                        <div class="flex items-center justify-between bg-valoInput/50 p-2 rounded-lg border border-slate-800/40">
-                            <span class="text-xs font-medium">Samuel Kalenga</span>
-                            <button class="text-red-400 text-xs p-1"><i class="bi bi-trash"></i></button>
+                <div class="accordion-content px-4 space-y-3">
+                    <div id="set-partners-list" class="space-y-1.5 max-h-32 overflow-y-auto pr-1"></div>
+                    <div class="flex gap-2 pt-2">
+                        <input type="text" id="add-partner-input" class="flex-grow bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-[11px] text-white focus:outline-none" placeholder="Nom du partenaire">
+                        <button id="btn-add-partner" class="w-10 h-10 bg-valoMint text-valoMidnight rounded-xl flex items-center justify-center"><i class="bi bi-plus-lg"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-valoCard border border-slate-800/50 rounded-2xl accordion-item overflow-hidden transition-all duration-300">
+                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger">
+                    <span class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        <i class="bi bi-tags-fill text-valoMint"></i> Rubriques de Flux
+                    </span>
+                    <i class="bi bi-chevron-right text-[10px] transition-transform"></i>
+                </button>
+                <div class="accordion-content px-4 space-y-6">
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center"><span class="text-[8px] font-black uppercase text-valoSlate tracking-widest">Entrées (Max 10)</span><span id="in-count" class="text-[8px] text-valoMint">0/10</span></div>
+                        <div id="in-tags" class="grid grid-cols-2 gap-1.5"></div>
+                        <div class="flex gap-1.5">
+                            <input type="text" id="add-in-input" class="flex-grow bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-[10px] text-white focus:outline-none" placeholder="Nouvelle entrée">
+                            <button id="btn-add-in" class="px-3 bg-slate-800 text-valoMint rounded-lg border border-slate-700 text-xs">+</button>
                         </div>
                     </div>
-                    <div class="flex gap-2 pt-1">
-                        <input type="text" id="new-partner-name" class="flex-grow bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-xs text-white focus:outline-none" placeholder="Nom du partenaire">
-                        <button id="btn-add-partner" class="bg-valoMint text-valoMidnight font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-valoMintHover"><i class="bi bi-plus-lg"></i></button>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center"><span class="text-[8px] font-black uppercase text-valoSlate tracking-widest">Sorties (Max 10)</span><span id="out-count" class="text-[8px] text-valoCrimson">0/10</span></div>
+                        <div id="out-tags" class="grid grid-cols-2 gap-1.5"></div>
+                        <div class="flex gap-1.5">
+                            <input type="text" id="add-out-input" class="flex-grow bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-[10px] text-white focus:outline-none" placeholder="Nouvelle sortie">
+                            <button id="btn-add-out" class="px-3 bg-slate-800 text-red-400 rounded-lg border border-slate-700 text-xs">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-valoCard border border-slate-800/60 rounded-xl overflow-hidden accordion-item">
-                <button class="w-full p-3.5 flex items-center justify-between text-left font-bold text-xs uppercase tracking-wide text-slate-200 accordion-trigger">
-                    <span class="flex items-center gap-2.5"><i class="bi bi-arrow-down-left-circle-fill text-valoMint"></i>Rubriques d'Entrées</span>
-                    <i class="bi bi-chevron-down text-[10px] text-valoSlate transition-transform"></i>
+            <div class="bg-valoCard border border-slate-800/50 rounded-2xl accordion-item overflow-hidden transition-all duration-300">
+                <button class="w-full p-4 flex items-center justify-between text-left accordion-trigger">
+                    <span class="flex items-center gap-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        <i class="bi bi-shield-lock-fill text-valoMint"></i> Sécurité & Clé d'Accès
+                    </span>
+                    <i class="bi bi-chevron-right text-[10px] transition-transform"></i>
                 </button>
-                <div class="accordion-content bg-slate-900/40 px-4 pb-4 space-y-3 pt-1">
-                    <div class="flex justify-between items-center text-[9px] text-valoSlate font-bold uppercase">
-                        <span>Prédéfini & personnalisés</span>
-                        <span id="income-count">3/10</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-1.5 text-[11px]" id="income-tags-container">
-                        <div class="bg-slate-800 border border-slate-700/40 p-2 rounded-lg text-slate-300 flex justify-between items-center"><span>Salaire</span><i class="bi bi-lock-fill text-[9px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-2 rounded-lg text-slate-300 flex justify-between items-center"><span>Cadeau</span><i class="bi bi-lock-fill text-[9px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-2 rounded-lg text-slate-300 flex justify-between items-center"><span>Retrait d'investissement</span><i class="bi bi-lock-fill text-[9px] text-valoSlate"></i></div>
-                    </div>
-                    <div class="flex gap-2 pt-1">
-                        <input type="text" id="new-income-tag" class="flex-grow bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-xs text-white focus:outline-none" placeholder="Ajouter une source d'entrée">
-                        <button id="btn-add-income" class="bg-valoMint text-valoMidnight font-bold px-3 py-1.5 rounded-lg text-xs"><i class="bi bi-plus-lg"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-valoCard border border-slate-800/60 rounded-xl overflow-hidden accordion-item">
-                <button class="w-full p-3.5 flex items-center justify-between text-left font-bold text-xs uppercase tracking-wide text-slate-200 accordion-trigger">
-                    <span class="flex items-center gap-2.5"><i class="bi bi-arrow-up-right-circle-fill text-valoCrimson"></i>Rubriques de Sorties</span>
-                    <i class="bi bi-chevron-down text-[10px] text-valoSlate transition-transform"></i>
-                </button>
-                <div class="accordion-content bg-slate-900/40 px-4 pb-4 space-y-3 pt-1">
-                    <div class="flex justify-between items-center text-[9px] text-valoSlate font-bold uppercase">
-                        <span>Prédéfini & personnalisés</span>
-                        <span id="expense-count">11/10</span>
-                    </div>
-                    <div class="max-h-40 overflow-y-auto grid grid-cols-2 gap-1.5 text-[10px] pr-1" id="expense-tags-container">
-                        <div class="bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center"><span>Dîme</span><i class="bi bi-lock-fill text-[8px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center"><span>Offrande</span><i class="bi bi-lock-fill text-[8px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center"><span>Don</span><i class="bi bi-lock-fill text-[8px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center"><span>Argent de poche</span><i class="bi bi-lock-fill text-[8px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center"><span>Loyer</span><i class="bi bi-lock-fill text-[8px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center"><span>Forfait appel</span><i class="bi bi-lock-fill text-[8px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center"><span>Forfait internet</span><i class="bi bi-lock-fill text-[8px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center"><span>Argent non retrouvé</span><i class="bi bi-lock-fill text-[8px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center"><span>Investissement</span><i class="bi bi-lock-fill text-[8px] text-valoSlate"></i></div>
-                        <div class="bg-slate-800 border border-slate-700/40 p-1.5 rounded-lg text-slate-300 flex justify-between items-center"><span>Épargne</span><i class="bi bi-lock-fill text-[8px] text-valoSlate"></i></div>
-                    </div>
-                    <div class="flex gap-2 pt-1">
-                        <input type="text" id="new-expense-tag" class="flex-grow bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-xs text-white focus:outline-none" placeholder="Ajouter une raison de sortie">
-                        <button id="btn-add-expense" class="bg-valoMint text-valoMidnight font-bold px-3 py-1.5 rounded-lg text-xs"><i class="bi bi-plus-lg"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-valoCard border border-slate-800/60 rounded-xl overflow-hidden accordion-item">
-                            <button class="w-full p-3.5 flex items-center justify-between text-left font-bold text-xs uppercase tracking-wide text-slate-200 accordion-trigger">
-                                <span class="flex items-center gap-2.5"><i class="bi bi-shield-lock-fill text-valoMint"></i>Sécurité d'accès</span>
-                                <i class="bi bi-chevron-down text-[10px] text-valoSlate transition-transform"></i>
-                            </button>
-                            <div class="accordion-content bg-slate-900/40 px-4 pb-4 space-y-3 pt-1">
-                                <p class="text-[10px] text-valoSlate leading-normal">Vos questions de récupération définies lors de l'enregistrement. Répondez correctement pour modifier votre Code Secret.</p>
-                                
-                                <div class="space-y-2">
-                                    <div class="space-y-1">
-                                        <label class="text-[9px] text-valoSlate uppercase font-bold" id="lbl-question-1">Question Secrète 1</label>
-                                        <input type="text" id="sec-answer-1" required class="w-full bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-xs text-white focus:outline-none focus:border-valoMint" placeholder="Votre réponse configurée">
-                                    </div>
-            
-                                    <div class="h-[1px] bg-slate-800/40 my-2"></div>
-            
-                                    <div class="space-y-1">
-                                        <label class="text-[9px] text-valoSlate uppercase font-bold">Nouveau Code Secret</label>
-                                        <input type="password" id="new-access-key" class="w-full bg-valoInput border border-slate-800 rounded-lg py-1.5 px-3 text-xs font-mono text-white focus:outline-none focus:border-valoMint" placeholder="••••••••">
-                                    </div>
-                                </div>
-                                
-                                <button id="btn-save-security" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-2 rounded-lg text-[10px] uppercase tracking-wider mt-2 transition-colors">
-                                    Mettre à jour la clé
-                                </button>
+                <div class="accordion-content px-4 space-y-4">
+                    <div id="security-verification-zone" class="space-y-4">
+                        <div class="p-3 bg-valoMint/5 border border-valoMint/20 rounded-xl">
+                            <p class="text-[9px] text-valoMint leading-relaxed uppercase font-bold tracking-tight">Pour modifier votre clé secrète, veuillez répondre aux deux questions configurées lors de votre enregistrement.</p>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="space-y-1">
+                                <label id="label-q1" class="text-[8px] font-black text-valoSlate uppercase tracking-widest">Question 1</label>
+                                <input type="text" id="ans-1" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-[11px] text-white focus:outline-none" placeholder="Réponse 1">
+                            </div>
+                            <div class="space-y-1">
+                                <label id="label-q2" class="text-[8px] font-black text-valoSlate uppercase tracking-widest">Question 2</label>
+                                <input type="text" id="ans-2" class="w-full bg-valoInput border border-slate-800 rounded-xl py-2 px-3 text-[11px] text-white focus:outline-none" placeholder="Réponse 2">
                             </div>
                         </div>
 
+                        <div id="new-key-zone" class="hidden space-y-3 pt-3 border-t border-slate-800/50">
+                            <div class="space-y-1">
+                                <label class="text-[8px] font-black text-valoMint uppercase tracking-widest">Nouveau Code Secret</label>
+                                <input type="password" id="new-key" class="w-full bg-slate-900 border border-valoMint/30 rounded-xl py-2 px-3 text-xs font-mono text-white focus:outline-none" placeholder="••••••••">
+                            </div>
+                        </div>
+
+                        <button id="btn-verify-security" class="w-full bg-valoMint hover:bg-valoMintHover text-valoMidnight font-black py-3 rounded-xl text-[10px] uppercase tracking-widest transition-all">Vérifier l'identité</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+        <button id="btn-logout-settings" class="w-full py-4 text-[10px] font-black uppercase tracking-[0.3em] text-red-500/50 hover:text-red-500 transition-all">Déconnexion_Session</button>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const triggers = document.querySelectorAll('.accordion-trigger');
-
-            triggers.forEach(trigger => {
-                trigger.addEventListener('click', function() {
-                    const currentItem = this.parentElement;
-                    const isOpen = currentItem.classList.contains('accordion-open');
-
-                    // Ferme TOUS les accordéons ouverts
-                    document.querySelectorAll('.accordion-item').forEach(item => {
-                        item.classList.remove('accordion-open');
-                    });
-
-                    // Si l'élément cliqué n'était pas ouvert, on l'ouvre (Accordéon exclusif)
-                    if (!isOpen) {
-                        currentItem.classList.add('accordion-open');
-                    }
-                });
-            });
-        });
-    </script>
+    <script type="module" src="setting.js"></script>
 </body>
 </html>
