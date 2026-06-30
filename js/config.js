@@ -53,3 +53,13 @@ export const registerWithUsername = async (username, password) => {
     throw new Error(error.message);
   }
 };
+
+/**
+ * Utilitaire pour nettoyer l'affichage des identifiants VALO
+ * @param {string} email - L'email virtuel stocké
+ * @returns {string} Le nom d'utilisateur épuré
+ */
+export const cleanEmail = (email) => {
+  if (!email) return 'Utilisateur';
+  return email.replace('@valo.local', '');
+};
