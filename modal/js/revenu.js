@@ -1,7 +1,12 @@
 // modal/js/revenu.js
 
-// On attache la fonction directement à window pour la rendre accessible partout sans import complexe
-window.initRevenuModal = function(categories, partners, currentRate = null) {
+/**
+ * Initialise l'ensemble des comportements interactifs du Modal de Revenu
+ * @param {Array<string>} categories - Liste des rubriques d'entrées
+ * @param {Array<string>} partners - Liste des contacts
+ * @param {number|null} currentRate - Le taux de change de la période (ex: 2850)
+ */
+export function initRevenuModal(categories, partners, currentRate = null) {
     const modal = document.getElementById('modal-revenu');
     const closeBtn = document.getElementById('close-modal-revenu');
     const isCdfCheckbox = document.getElementById('rev-is-cdf');
@@ -14,22 +19,20 @@ window.initRevenuModal = function(categories, partners, currentRate = null) {
     const inputPartner = document.getElementById('rev-partner');
     const suggestionsBox = document.getElementById('modal-partner-suggestions');
 
-    if (!modal) return;
-
-    // SÉCURITÉ GENTILLE : Gestion de la fermeture immédiate (la croix)
-    if (closeBtn) {
+    // SÉCURITÉ CROIX : Ferme et masque le modal proprement au clic
+    if (closeBtn && modal) {
         closeBtn.onclick = (e) => {
             e.preventDefault();
             modal.classList.add('hidden');
         };
     }
 
-    // Date du jour automatique si vide
+    // Configuration de la date du jour automatique
     if (inputDate && !inputDate.value) {
         inputDate.value = new Date().toISOString().split('T')[0];
     }
 
-    // Bascule Devise USD / CDF
+    // Gestion de la bascule de devise USD / CDF & Taux
     if (isCdfCheckbox && wrapperRate && inputRate && symbol) {
         isCdfCheckbox.onchange = () => {
             if (isCdfCheckbox.checked) {
@@ -44,7 +47,7 @@ window.initRevenuModal = function(categories, partners, currentRate = null) {
         };
     }
 
-    // Affichage des catégories configurées
+    // Injection et sélection des catégories
     if (tagsContainer && inputCategory) {
         if (!categories || categories.length === 0) {
             tagsContainer.innerHTML = `<span class="text-[9px] text-slate-600 italic">Aucune catégorie</span>`;
@@ -63,7 +66,7 @@ window.initRevenuModal = function(categories, partners, currentRate = null) {
         }
     }
 
-    // Autocomplete Partenaires
+    // Recherche prédictive des partenaires
     if (inputPartner && suggestionsBox) {
         inputPartner.oninput = (e) => {
             const val = e.target.value.trim().toLowerCase();
@@ -92,5 +95,11 @@ window.initRevenuModal = function(categories, partners, currentRate = null) {
                 };
             });
         };
+
+        document.addEventListener('click', (e) => {
+            if (!inputPartner.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                suggestionsBox.classList.add('hidden');
+            }
+        });
     }
-};
+}
