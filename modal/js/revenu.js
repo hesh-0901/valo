@@ -1,12 +1,7 @@
 // modal/js/revenu.js
 
-/**
- * Initialise l'ensemble des comportements interactifs du Modal de Revenu
- * @param {Array<string>} categories - Liste des rubriques d'entrées issues des settings
- * @param {Array<string>} partners - Liste de tes contacts récurrents
- * @param {number|null} currentRate - Le taux de change configuré pour la période actuelle (ex: 2850)
- */
-export function initModalRevenuBehavior(categories, partners, currentRate = null) {
+// On attache la fonction directement à window pour la rendre accessible partout sans import complexe
+window.initRevenuModal = function(categories, partners, currentRate = null) {
     const modal = document.getElementById('modal-revenu');
     const closeBtn = document.getElementById('close-modal-revenu');
     const isCdfCheckbox = document.getElementById('rev-is-cdf');
@@ -21,34 +16,38 @@ export function initModalRevenuBehavior(categories, partners, currentRate = null
 
     if (!modal) return;
 
-    // 1. ACTION FERMETURE DU MODAL (BOUTON X)
-    closeBtn.onclick = () => {
-        modal.classList.add('hidden');
-    };
+    // SÉCURITÉ GENTILLE : Gestion de la fermeture immédiate (la croix)
+    if (closeBtn) {
+        closeBtn.onclick = (e) => {
+            e.preventDefault();
+            modal.classList.add('hidden');
+        };
+    }
 
-    // 2. CONFIGURATION DE LA DATE DU JOUR PAR DÉFAUT
+    // Date du jour automatique si vide
     if (inputDate && !inputDate.value) {
         inputDate.value = new Date().toISOString().split('T')[0];
     }
 
-    // 3. GESTION DE LA BASCULE DEVISE (USD / CDF) & TAUX D'ÉCHANGE
-    isCdfCheckbox.onchange = () => {
-        if (isCdfCheckbox.checked) {
-            symbol.innerText = "FC";
-            wrapperRate.classList.remove('hidden');
-            // Affectation du taux de la période, ou 0 s'il n'existe pas
-            inputRate.value = currentRate ? currentRate : 0;
-        } else {
-            symbol.innerText = "$";
-            wrapperRate.classList.add('hidden');
-            inputRate.value = "";
-        }
-    };
+    // Bascule Devise USD / CDF
+    if (isCdfCheckbox && wrapperRate && inputRate && symbol) {
+        isCdfCheckbox.onchange = () => {
+            if (isCdfCheckbox.checked) {
+                symbol.innerText = "FC";
+                wrapperRate.classList.remove('hidden');
+                inputRate.value = currentRate ? currentRate : 0;
+            } else {
+                symbol.innerText = "$";
+                wrapperRate.classList.add('hidden');
+                inputRate.value = "";
+            }
+        };
+    }
 
-    // 4. INJECTION ET SELECTION DES CATÉGORIES (RUBRIQUES)
+    // Affichage des catégories configurées
     if (tagsContainer && inputCategory) {
         if (!categories || categories.length === 0) {
-            tagsContainer.innerHTML = `<span class="text-[9px] text-slate-600 italic">Aucune catégorie disponible</span>`;
+            tagsContainer.innerHTML = `<span class="text-[9px] text-slate-600 italic">Aucune catégorie</span>`;
         } else {
             tagsContainer.innerHTML = categories.map(cat => `
                 <button type="button" class="btn-select-cat text-[9px] font-bold px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-400 hover:text-valoMint hover:border-valoMint/30 transition-all">
@@ -64,7 +63,7 @@ export function initModalRevenuBehavior(categories, partners, currentRate = null
         }
     }
 
-    // 5. RECHERCHE PRÉDICTIVE DES PARTENAIRES (AUTOCOMPLETE)
+    // Autocomplete Partenaires
     if (inputPartner && suggestionsBox) {
         inputPartner.oninput = (e) => {
             const val = e.target.value.trim().toLowerCase();
@@ -93,12 +92,5 @@ export function initModalRevenuBehavior(categories, partners, currentRate = null
                 };
             });
         };
-
-        // Fermer la liste si clic à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (!inputPartner.contains(e.target) && !suggestionsBox.contains(e.target)) {
-                suggestionsBox.classList.add('hidden');
-            }
-        });
     }
-}
+};
