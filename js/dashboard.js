@@ -29,31 +29,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // CHARGEMENT SYSTEME ASYNCHRONE DES COMPOSANTS MODALS
-    // ==========================================
-    btnOpenRevenu.addEventListener('click', async () => {
-        if (!currentUid) return;
-        try {
-            const response = await fetch('./modal/revenu.html');
-            modalContainer.innerHTML = await response.text();
-            
-            // Importation dynamique du sous-module JS dédié
-            const { initRevenuModal } = await import('../modal/js/revenu.js');
-            initRevenuModal(currentUid, () => { modalContainer.innerHTML = ''; });
-        } catch (err) { console.error("Échec chargement modal revenu", err); }
-    });
-
-    btnOpenSortie.addEventListener('click', async () => {
-        if (!currentUid) return;
-        try {
-            const response = await fetch('./modal/sortie.html');
-            modalContainer.innerHTML = await response.text();
-            
-            const { initSortieModal } = await import('../modal/js/sortie.js');
-            initSortieModal(currentUid, () => { modalContainer.innerHTML = ''; });
-        } catch (err) { console.error("Échec chargement modal sortie", err); }
-    });
-
+        // CHARGEMENT SYSTEME ASYNCHRONE DES COMPOSANTS MODALS
+        // ==========================================
+        btnOpenRevenu.addEventListener('click', async () => {
+            if (!currentUid) return;
+            try {
+                // 1. Récupération et injection du HTML isolé
+                const response = await fetch('./modal/revenu.html');
+                modalContainer.innerHTML = await response.text();
+                
+                // 2. Importation dynamique avec le chemin d'accès absolu depuis la racine
+                const moduleRevenu = await import('../modal/js/revenu.js');
+                
+                // 3. Simulation des données (À remplacer plus tard par tes données Firebase)
+                const rubriquesDeTest = ["Vente", "UI/UX Design", "Import"];
+                const partenairesDeTest = ["Samuel Kalenga", "Vianelle", "Japhète"];
+                const tauxDuMoment = 2850; 
+    
+                // 4. Initialisation du comportement complet du modal (Devise, Tags, Recherche, Croix)
+                moduleRevenu.initRevenuModal(rubriquesDeTest, partenairesDeTest, tauxDuMoment);
+                
+            } catch (err) { 
+                console.error("Échec chargement modal revenu", err); 
+            }
+        });
     // Reste du cycle Firebase global
     onAuthStateChanged(auth, (user) => {
         if (user) {
